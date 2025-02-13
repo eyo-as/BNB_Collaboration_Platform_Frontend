@@ -22,7 +22,7 @@ const ContentRight = () => {
                 className="form-select"
                 aria-label="Default select example"
               >
-                <option selected="">Select category</option>
+                <option>Select category</option>
                 <option value="1">Discussion</option>
                 <option value="2">Language</option>
                 <option value="3">Analytics</option>

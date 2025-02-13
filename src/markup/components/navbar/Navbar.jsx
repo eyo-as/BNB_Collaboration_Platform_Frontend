@@ -101,9 +101,15 @@ const Navbar = () => {
           <div className="container">
             <div className="dot-menu">
               <div className="inner">
-                <div className="circle circle-one"></div>
-                <div className="circle circle-two"></div>
-                <div className="circle circle-three"></div>
+                <button
+                  className="btn btn-primary bg-transparent border-0"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasExample"
+                  aria-controls="offcanvasExample"
+                >
+                  <i className="ri-menu-line"></i>
+                </button>
               </div>
             </div>
 

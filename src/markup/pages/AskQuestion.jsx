@@ -28,7 +28,7 @@ const AskQuestion = () => {
                         className="form-select form-control"
                         aria-label="Default select example"
                       >
-                        <option selected="">Selete cagegory</option>
+                        <option>Selete cagegory</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>

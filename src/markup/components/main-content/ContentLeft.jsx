@@ -4,16 +4,7 @@ const ContentLeft = () => {
       <div className="col-lg-3">
         <div className="sidebar-menu-wrap">
           <div className="sidemenu-wrap d-flex justify-content-between align-items-center">
-            <h3>Pify Sidebar Menu</h3>
-            <button
-              className="btn btn-primary"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
-            >
-              <i className="ri-menu-line"></i>
-            </button>
+            <h3 className="text-center">Pify Sidebar Menu</h3>
           </div>
 
           <div
