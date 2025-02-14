@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+body,
+html {
+  overflow: auto !important; /* Ensure scrolling is enabled */
+}

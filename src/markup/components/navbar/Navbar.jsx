@@ -1,4 +1,4 @@
-import logo from "../../../assets/images/logo.png";
+import logo from "../../../assets/images/logo3.png";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
@@ -24,7 +24,7 @@ const Navbar = () => {
               </Link>
 
               <div
-                className="collapse navbar-collapse mean-menu"
+                className="collapse navbar-collapse mean-menu visible"
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav m-auto">
@@ -102,13 +102,13 @@ const Navbar = () => {
             <div className="dot-menu">
               <div className="inner">
                 <button
-                  className="btn btn-primary bg-transparent border-0"
+                  className="btn btn-primary bg-transparent border-0 p-0"
                   type="button"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#offcanvasExample"
                   aria-controls="offcanvasExample"
                 >
-                  <i className="ri-menu-line"></i>
+                  <i className="ri-menu-line text-3xl"></i>
                 </button>
               </div>
             </div>

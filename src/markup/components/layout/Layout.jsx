@@ -6,7 +6,7 @@ import Preloader from "../preloader/Preloader";
 const Layout = ({ children }) => {
   return (
     <>
-      <Preloader />
+      {/* <Preloader /> */}
       <Navbar />
       {children}
       <Footer />

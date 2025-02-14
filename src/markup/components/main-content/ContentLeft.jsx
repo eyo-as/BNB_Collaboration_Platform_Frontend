@@ -1,14 +1,14 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
 const ContentLeft = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div className="col-lg-3">
         <div className="sidebar-menu-wrap">
-          <div className="sidemenu-wrap d-flex justify-content-between align-items-center">
-            <h3 className="text-center">Pify Sidebar Menu</h3>
-          </div>
-
           <div
-            className="offcanvas offcanvas-start"
+            className="offcanvas offcanvas-start w-75"
             tabIndex="-1"
             id="offcanvasExample"
             aria-labelledby="offcanvasExampleLabel"
@@ -29,43 +29,58 @@ const ContentLeft = () => {
                 <nav className="sidebar-nav" data-simplebar="">
                   <ul id="sidebar-menu" className="sidebar-menu">
                     <li>
-                      <a href="index.html" className="box-style active">
+                      <Link to={"/"} className="box-style active">
                         <span className="menu-title">
                           <i className="ri-home-8-line"></i>
                           Home
                         </span>
-                      </a>
+                      </Link>
                     </li>
+
                     <li>
-                      <a
-                        href="all-queations.html"
+                      <div
                         className="has-arrow box-style"
+                        onClick={() => setIsOpen(!isOpen)}
                       >
+                        {" "}
+                        {/* Click handler */}
                         <i className="ri-question-line"></i>
                         <span className="menu-title"> Questions </span>
-                      </a>
-                      <ul className="sidemenu-nav-second-level">
+                        {/* Add an icon to indicate the dropdown state (optional) */}
+                        <i
+                          className={`ri-arrow-down-s-line  ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                          style={{ transition: "transform 0.2s" }}
+                        ></i>{" "}
+                        {/* Conditional class for rotation */}
+                      </div>
+                      <ul
+                        className={`sidemenu-nav-second-level ${
+                          isOpen ? "block" : "hidden"
+                        }`}
+                      >
+                        {" "}
+                        {/* Conditional class for visibility */}
                         <li>
-                          <a href="all-queations.html">
-                            <span className="menu-title">All questions</span>
-                          </a>
+                          <Link to={"/ask-question"}>
+                            <span className="menu-title">Ask Question</span>
+                          </Link>
                         </li>
                         <li>
-                          <a href="queations-details.html">
-                            <span className="menu-title">
-                              questions details
-                            </span>
-                          </a>
+                          <Link to={"/questions"}>
+                            <span className="menu-title">Questions</span>
+                          </Link>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a href="communities.html" className="box-style">
+                      <Link to={"/"} className="box-style">
                         <span className="menu-title">
                           <i className="ri-links-line"></i>
                           Communities
                         </span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a
@@ -106,85 +121,40 @@ const ContentLeft = () => {
                         </span>
                       </a>
                     </li>
+
                     <li>
-                      <a href="polls.html" className="box-style">
+                      <Link to={"/about-us"} className="box-style">
                         <span className="menu-title">
-                          <i className="ri-bar-chart-fill"></i>
-                          Polls
+                          <i className="ri-lightbulb-line"></i>
+                          About
                         </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="faq.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-hq-line"></i>
-                          FAQs
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="groups.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-group-2-line"></i>
-                          Groups
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="education.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-book-line"></i>
-                          Education
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="technology.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-file-shield-2-line"></i>
-                          Technology
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="tags.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-price-tag-line"></i>
-                          Tags
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="badges.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-award-line"></i>
-                          Badges
-                        </span>
-                      </a>
+                      </Link>
                     </li>
 
                     <li>
-                      <a href="user.html" className="has-arrow box-style">
-                        <i className="ri-user-line"></i>
-                        <span className="menu-title"> User </span>
-                      </a>
-                      <ul className="sidemenu-nav-second-level">
-                        <li>
-                          <a href="user.html">
-                            <span className="menu-title">User</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="user-profile.html">
-                            <span className="menu-title">User profile</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="ask-questions.html">
-                            <span className="menu-title">Ask a questions</span>
-                          </a>
-                        </li>
-                      </ul>
+                      <Link to={"/contact-us"} className="box-style">
+                        <span className="menu-title">
+                          <i className="ri-map-pin-line"></i>
+                          Contact
+                        </span>
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link to={"/user-profile"} className="box-style">
+                        <span className="menu-title">
+                          <i className="ri-user-line"></i>
+                          Profile
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/login"} className="box-style">
+                        <span className="menu-title">
+                          <i className="ri-login-box-line"></i>
+                          Sign in
+                        </span>
+                      </Link>
                     </li>
                   </ul>
                 </nav>

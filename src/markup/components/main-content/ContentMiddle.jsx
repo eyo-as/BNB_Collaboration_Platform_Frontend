@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import user1 from "../../../assets/images/user/user-1.jpg";
 
 const ContentMiddle = () => {
@@ -206,9 +207,9 @@ const ContentMiddle = () => {
                         </li>
                       </ul>
 
-                      <a href="most-answered.html" className="default-btn">
+                      <Link to={"/answer"} className="default-btn">
                         Answer
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -495,9 +496,9 @@ const ContentMiddle = () => {
                         </li>
                       </ul>
 
-                      <a href="most-answered.html" className="default-btn">
+                      <Link to={"/answer"} className="default-btn">
                         Answer
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -650,9 +651,9 @@ const ContentMiddle = () => {
                         </li>
                       </ul>
 
-                      <a href="most-answered.html" className="default-btn">
+                      <Link to={"/answer"} className="default-btn">
                         Answer
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
