@@ -14,7 +14,7 @@ const Banner = () => {
           <div className="row align-items-center">
             <div className="col-lg-6">
               <div className="banner-content">
-                <h1>BNB LC</h1>
+                <h1>BNB</h1>
                 <h3>
                   Share & grow the worlds <span>knowledge</span>!
                 </h3>

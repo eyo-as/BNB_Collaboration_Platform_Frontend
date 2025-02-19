@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import profileImg from "../../../assets/images/user/profile-img.jpg";
-import ContentLeft from "../main-content/ContentLeft";
+import profileImg from "../../../../assets/images/user/profile-img.jpg";
+import ContentLeft from "../../main-content/ContentLeft";
 
 const UserProfile = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
@@ -15,6 +15,7 @@ const UserProfile = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <>
       <div className="main-content-area ptb-100">

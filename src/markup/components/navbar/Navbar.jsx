@@ -72,23 +72,12 @@ const Navbar = () => {
                       </form>
                     </li>
                     <li>
-                      <Link
-                        to={"/login"}
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        className="active"
-                      >
+                      <Link to={"/login"} className="active">
                         Log in
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        to={"/sign-up"}
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal-2"
-                      >
-                        Sign up
-                      </Link>
+                      <Link to={"/register"}>Sign up</Link>
                     </li>
                   </ul>
                 </div>
@@ -132,23 +121,12 @@ const Navbar = () => {
                       </form>
                     </li>
                     <li>
-                      <Link
-                        to={"/login"}
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal-3"
-                        className="active"
-                      >
+                      <Link to={"/login"} className="active">
                         Log in
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        to={"/sign-up"}
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal-4"
-                      >
-                        Sign up
-                      </Link>
+                      <Link to={"/register"}>Sign up</Link>
                     </li>
                   </ul>
                 </div>
