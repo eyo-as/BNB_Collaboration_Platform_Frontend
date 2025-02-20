@@ -69,7 +69,10 @@ const GetAllQuestion = () => {
             <div className="col-lg">
               <div className="middull-content">
                 <div>
-                  <table className="table table-striped">
+                  <caption className="whitespace-nowrap text-xl font-bold ">
+                    List of Questions
+                  </caption>
+                  <table className="table table-striped border table-hover table-responsive table-bordered table-striped ">
                     <thead>
                       <tr>
                         <th>Q_ID</th>
