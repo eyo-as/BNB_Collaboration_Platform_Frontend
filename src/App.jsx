@@ -27,6 +27,7 @@ import GetAllUser from "./markup/pages/user/GetAllUser";
 import QuestionList from "./markup/pages/question/QuestionList";
 import SingleQuestionPage from "./markup/pages/question/SingleQuestionPage";
 import CreateAnswer from "./markup/pages/answer/CreateAnswer";
+import GetAnswerByQuestionIdPage from "./markup/pages/answer/GetAnswerByQuestionIdPage";
 
 const App = () => {
   return (
@@ -45,8 +46,12 @@ const App = () => {
           />
 
           <Route
-            path="/questions/:question_id/answers"
+            path="/questions/:question_id/answer"
             element={<CreateAnswer />}
+          />
+          <Route
+            path="/questions/:question_id/answers"
+            element={<GetAnswerByQuestionIdPage />}
           />
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />

@@ -3,7 +3,7 @@ import { getAllQuestionService } from "../../../service/question.service";
 import { Link } from "react-router-dom";
 import ContentLeft from "../main-content/ContentLeft";
 import ContentRight from "../main-content/ContentRight";
-import Pagination from "../pagination/Pagation";
+import Pagination from "../pagination/Pagination";
 
 const GetAllQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -69,9 +69,9 @@ const GetAllQuestion = () => {
             <div className="col-lg">
               <div className="middull-content">
                 <div>
-                  <caption className="whitespace-nowrap text-xl font-bold ">
+                  <span className="whitespace-nowrap text-xl font-bold text-black">
                     List of Questions
-                  </caption>
+                  </span>
                   <table className="table table-striped border table-hover table-responsive table-bordered table-striped ">
                     <thead>
                       <tr>
@@ -84,29 +84,31 @@ const GetAllQuestion = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {questionsToDisplay.map(
+                      {questionsToDisplay?.map(
                         (
                           question // Use questionsToDisplay here
-                        ) => (
-                          <tr key={question.question_id}>
-                            <td>{question.question_id}</td>
-                            <td>{question.title}</td>
-                            <td>{question.description}</td>
-                            <td>{question.tags}</td>
-                            <td>
-                              <Link to={`/questions/${question.question_id}`}>
-                                View Question
-                              </Link>
-                            </td>
-                            <td>
-                              <Link
-                                to={`/questions/${question.question_id}/answers`}
-                              >
-                                Answer
-                              </Link>
-                            </td>
-                          </tr>
-                        )
+                        ) => {
+                          return (
+                            <tr key={question.question_id}>
+                              <td>{question.question_id}</td>
+                              <td>{question.title}</td>
+                              <td>{question.description}</td>
+                              <td>{question.tags}</td>
+                              <td>
+                                <Link to={`/questions/${question.question_id}`}>
+                                  View Question
+                                </Link>
+                              </td>
+                              <td>
+                                <Link
+                                  to={`/questions/${question.question_id}/answer`}
+                                >
+                                  Answer
+                                </Link>
+                              </td>
+                            </tr>
+                          );
+                        }
                       )}
                     </tbody>
                   </table>
