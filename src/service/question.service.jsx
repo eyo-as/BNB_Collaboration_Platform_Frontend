@@ -61,7 +61,6 @@ const getSingleQuestionService = async (question_id, token) => {
       response,
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       error,
