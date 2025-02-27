@@ -40,14 +40,24 @@ const FeaturedQuestion = () => {
 
   // Update displayed questions when pagination or answersCache changes
   useEffect(() => {
-    // Filter featured questions
-    const featuredQuestions = questions.filter((question) => {
-      return question.upvotes >= 0;
+    // Calculate a score for each question based on upvotes and answers
+    const scoredQuestions = questions.map((question) => {
+      const answers = answersCache[question.question_id] || [];
+      const answerCount = answers.length;
+      const upvotes = question.upvotes || 0;
+
+      // Calculate a combined score
+      const score = upvotes + 2 * answerCount; // Adjust weights as needed
+
+      return {
+        ...question,
+        score, // Add the score to the question object
+      };
     });
 
-    // Sort featured questions by upvotes (descending order)
-    const sortedQuestions = [...featuredQuestions].sort((a, b) => {
-      return b.upvotes - a.upvotes; // Sort by upvotes (descending)
+    // Sort questions by score in descending order
+    const sortedQuestions = [...scoredQuestions].sort((a, b) => {
+      return b.score - a.score; // Sort by score (descending)
     });
 
     const startIndex = (currentPage - 1) * questionsPerPage;
