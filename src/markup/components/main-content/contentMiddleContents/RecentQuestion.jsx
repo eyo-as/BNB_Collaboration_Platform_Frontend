@@ -34,19 +34,24 @@ const RecentQuestion = () => {
       });
   }, [token]);
 
-  // Update displayed questions when pagination changes
+  // Update displayed questions when pagination or questions change
   useEffect(() => {
     updateDisplayedQuestions(questions);
   }, [questions, currentPage]);
 
   // Helper function to update displayed questions
   const updateDisplayedQuestions = (allQuestions) => {
+    // Sort questions by `created_at` timestamp (most recent first)
+    const sortedQuestions = [...allQuestions].sort((a, b) => {
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
+
     const startIndex = (currentPage - 1) * questionsPerPage;
     const endIndex = Math.min(
       startIndex + questionsPerPage,
-      allQuestions.length
+      sortedQuestions.length
     );
-    const displayedQuestions = allQuestions.slice(startIndex, endIndex);
+    const displayedQuestions = sortedQuestions.slice(startIndex, endIndex);
     setQuestionsToDisplay(displayedQuestions);
 
     // Pre-fetch answers for displayed questions
@@ -88,6 +93,7 @@ const RecentQuestion = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <>
       <div
