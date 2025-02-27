@@ -1,9 +1,9 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getAnswersByQuestionIdService } from "../../../../service/answer.service";
 import { getAllQuestionService } from "../../../../service/question.service";
 import { FaUser } from "react-icons/fa6";
 import { jwtDecode } from "jwt-decode";
-import { getAnswersByQuestionIdService } from "../../../../service/answer.service";
-import { Link } from "react-router";
 import Pagination from "../../pagination/Pagination";
 
 const MostAnswered = () => {
@@ -16,6 +16,7 @@ const MostAnswered = () => {
 
   const token = localStorage.getItem("token");
   const decoded = jwtDecode(token);
+
   // Fetch all questions
   useEffect(() => {
     getAllQuestionService(token)
@@ -26,35 +27,33 @@ const MostAnswered = () => {
         }));
         setAllQuestions(allQuestions);
         setTotalPages(Math.ceil(allQuestions.length / questionsPerPage));
-        updateDisplayedQuestions(allQuestions); // Update display on initial load
+
+        // Fetch answers for all questions
+        allQuestions.forEach((question) => {
+          fetchAnswersForQuestion(question.question_id);
+        });
       })
       .catch((error) => {
         console.log("Error fetching questions:", error);
       });
   }, [token]);
 
-  // Update displayed questions when pagination changes
+  // Update displayed questions when pagination or answersCache changes
   useEffect(() => {
-    updateDisplayedQuestions(questions);
-  }, [questions, currentPage]);
+    const sortedQuestions = [...questions].sort((a, b) => {
+      const answerCountA = answersCache[a.question_id]?.length || 0;
+      const answerCountB = answersCache[b.question_id]?.length || 0;
+      return answerCountB - answerCountA; // Sort by answer count (descending)
+    });
 
-  // Helper function to update displayed questions
-  const updateDisplayedQuestions = (allQuestions) => {
     const startIndex = (currentPage - 1) * questionsPerPage;
     const endIndex = Math.min(
       startIndex + questionsPerPage,
-      allQuestions.length
+      sortedQuestions.length
     );
-    const displayedQuestions = allQuestions.slice(startIndex, endIndex);
+    const displayedQuestions = sortedQuestions.slice(startIndex, endIndex);
     setQuestionsToDisplay(displayedQuestions);
-
-    // Pre-fetch answers for displayed questions
-    displayedQuestions.forEach((question) => {
-      if (!answersCache[question.question_id]) {
-        fetchAnswersForQuestion(question.question_id);
-      }
-    });
-  };
+  }, [questions, currentPage, answersCache]);
 
   // Fetch answers for a specific question
   const fetchAnswersForQuestion = async (questionId) => {
@@ -90,150 +89,156 @@ const MostAnswered = () => {
 
   return (
     <>
-      <div>
-        <div
-          className="tab-pane fade"
-          id="most-answered"
-          role="tabpanel"
-          aria-labelledby="most-answered-tab"
-        >
-          {questionsToDisplay?.map((question) => {
-            const answers = answersCache[question.question_id] || [];
-            const latestAnswer = getLatestAnswer(question.question_id);
-            const answerCount = answers.length;
+      <div
+        className="tab-pane fade"
+        id="most-answered"
+        role="tabpanel"
+        aria-labelledby="most-answered-tab"
+      >
+        <div>
+          <div>
+            {questionsToDisplay?.map((question) => {
+              const answers = answersCache[question.question_id] || [];
+              const latestAnswer = getLatestAnswer(question.question_id);
+              const answerCount = answers.length;
 
-            return (
-              <div key={question.question_id}>
-                <div className="single-qa-box like-dislike">
-                  <div className="d-flex">
-                    <div className="link-unlike flex-shrink-0">
-                      <span className="md:p-0 p-2">
-                        <FaUser size={35} color="#000" />
-                      </span>
+              return (
+                <div key={question.question_id}>
+                  <div className="single-qa-box like-dislike">
+                    <div className="d-flex">
+                      <div className="link-unlike flex-shrink-0">
+                        <span className="md:p-0 p-2">
+                          <FaUser size={35} color="#000" />
+                        </span>
 
-                      <div className="donet-like-list">
-                        <button className="like-unlink-count like">
-                          <i className="ri-thumb-up-fill"></i>
-                          <span>{question.upvotes}</span>
-                        </button>
+                        <div className="donet-like-list">
+                          <button className="like-unlink-count like">
+                            <i className="ri-thumb-up-fill"></i>
+                            <span>{question.upvotes}</span>
+                          </button>
+                        </div>
+
+                        <div className="donet-like-list">
+                          <button className="like-unlink-count dislike">
+                            <i className="ri-thumb-down-fill"></i>
+                            <span>{question.downvotes}</span>
+                          </button>
+                        </div>
                       </div>
 
-                      <div className="donet-like-list">
-                        <button className="like-unlink-count dislike">
-                          <i className="ri-thumb-down-fill"></i>
-                          <span>{question.downvotes}</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="flex-grow-1 ms-3">
-                      <ul className="graphic-design">
-                        <li className="text-black">{decoded.username}</li>
-                        <li>
-                          <span>
-                            Latest Answer:{" "}
-                            {latestAnswer
-                              ? new Date(
-                                  latestAnswer.created_at
-                                ).toLocaleDateString()
-                              : "No answers yet"}
-                          </span>
-                        </li>
-                        <li>
-                          <span>In:</span>
-                          {(() => {
-                            const firstTag =
-                              question.tags?.split(",")[0] || "General";
-                            return (
-                              <span className="text-orange-400 font-bold">
-                                {" "}
-                                {firstTag}
-                              </span>
-                            );
-                          })()}
-                        </li>
-                      </ul>
-
-                      <h3>{question.title}</h3>
-
-                      <p>{question.description}</p>
-
-                      <ul className="tag-list">
-                        {(question.tags?.split(",") || []).map((tag, i) => (
-                          <li key={i} className="border p-1 rounded text-black">
-                            {tag.trim()}
-                          </li>
-                        ))}
-                      </ul>
-
-                      <div className="d-flex justify-content-between align-items-center">
-                        <ul className="anser-list">
-                          <li>50 Vote</li>
+                      <div className="flex-grow-1 ms-3">
+                        <ul className="graphic-design">
+                          <li className="text-black">{decoded.username}</li>
                           <li>
-                            {answerCount} Answer
-                            {answerCount !== 1 ? "s" : ""}
+                            <span>
+                              Latest Answer:{" "}
+                              {latestAnswer
+                                ? new Date(
+                                    latestAnswer.created_at
+                                  ).toLocaleDateString()
+                                : "No answers yet"}
+                            </span>
                           </li>
-                          <li>658 Views</li>
                           <li>
-                            <ul className="qa-share">
-                              <li className="share-option">
-                                <span>
-                                  <i className="ri-share-fill"></i>
+                            <span>In:</span>
+                            {(() => {
+                              const firstTag =
+                                question.tags?.split(",")[0] || "General";
+                              return (
+                                <span className="text-orange-400 font-bold">
+                                  {" "}
+                                  {firstTag}
                                 </span>
-
-                                <ul className="social-icon">
-                                  <li>
-                                    <a
-                                      href="https://www.facebook.com/"
-                                      target="_blank"
-                                    >
-                                      <i className="ri-facebook-fill"></i>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      href="https://www.twitter.com/"
-                                      target="_blank"
-                                    >
-                                      <i className="ri-twitter-line"></i>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      href="https://www.linkedin.com/"
-                                      target="_blank"
-                                    >
-                                      <i className="ri-linkedin-fill"></i>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      href="https://www.instagram.com/"
-                                      target="_blank"
-                                    >
-                                      <i className="ri-instagram-line"></i>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </li>
-                            </ul>
+                              );
+                            })()}
                           </li>
                         </ul>
 
-                        <Link
-                          to={`/questions/${question.question_id}/answers`}
-                          className="default-btn"
-                        >
-                          Answer
-                        </Link>
+                        <h3>{question.title}</h3>
+
+                        <p>{question.description}</p>
+
+                        <ul className="tag-list">
+                          {(question.tags?.split(",") || []).map((tag, i) => (
+                            <li
+                              key={i}
+                              className="border p-1 rounded text-black"
+                            >
+                              {tag.trim()}
+                            </li>
+                          ))}
+                        </ul>
+
+                        <div className="d-flex justify-content-between align-items-center">
+                          <ul className="anser-list">
+                            <li>50 Vote</li>
+                            <li>
+                              {answerCount} Answer
+                              {answerCount !== 1 ? "s" : ""}
+                            </li>
+                            <li>658 Views</li>
+                            <li>
+                              <ul className="qa-share">
+                                <li className="share-option">
+                                  <span>
+                                    <i className="ri-share-fill"></i>
+                                  </span>
+
+                                  <ul className="social-icon">
+                                    <li>
+                                      <a
+                                        href="https://www.facebook.com/"
+                                        target="_blank"
+                                      >
+                                        <i className="ri-facebook-fill"></i>
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a
+                                        href="https://www.twitter.com/"
+                                        target="_blank"
+                                      >
+                                        <i className="ri-twitter-line"></i>
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a
+                                        href="https://www.linkedin.com/"
+                                        target="_blank"
+                                      >
+                                        <i className="ri-linkedin-fill"></i>
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a
+                                        href="https://www.instagram.com/"
+                                        target="_blank"
+                                      >
+                                        <i className="ri-instagram-line"></i>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+
+                          <Link
+                            to={`/questions/${question.question_id}/answers`}
+                            className="default-btn"
+                          >
+                            Answer
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
