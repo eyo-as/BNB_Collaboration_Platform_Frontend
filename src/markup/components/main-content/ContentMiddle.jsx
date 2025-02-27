@@ -5,6 +5,7 @@ import { getAllQuestionService } from "../../../service/question.service";
 import Pagination from "../pagination/Pagination";
 import { jwtDecode } from "jwt-decode";
 import { getAnswersByQuestionIdService } from "../../../service/answer.service";
+import { FaUser } from "react-icons/fa6";
 
 const ContentMiddle = () => {
   const [questions, setAllQuestions] = useState([]);
@@ -21,7 +22,7 @@ const ContentMiddle = () => {
   useEffect(() => {
     getAllQuestionService(token)
       .then((res) => {
-        const allQuestions = res.response.data.data.map((question) => ({
+        const allQuestions = res.response.data.data?.map((question) => ({
           ...question,
           tags: question.tags || "", // Ensure tags is at least an empty string
         }));
@@ -37,7 +38,7 @@ const ContentMiddle = () => {
   // Update displayed questions when pagination changes
   useEffect(() => {
     updateDisplayedQuestions(questions);
-  }, [questions]);
+  }, [questions, currentPage]);
 
   // Helper function to update displayed questions
   const updateDisplayedQuestions = (allQuestions) => {
@@ -186,9 +187,9 @@ const ContentMiddle = () => {
                         <div className="single-qa-box like-dislike">
                           <div className="d-flex">
                             <div className="link-unlike flex-shrink-0">
-                              <a href="user.html">
-                                <img src={user1} alt="Image" />
-                              </a>
+                              <span className="md:p-0 p-2">
+                                <FaUser size={35} color="#000" />
+                              </span>
 
                               <div className="donet-like-list">
                                 <button className="like-unlink-count like">

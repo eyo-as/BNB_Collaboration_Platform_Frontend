@@ -26,7 +26,6 @@ const GetAllQuestion = () => {
       .catch((error) => {
         console.error("Error fetching questions:", error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ const GetAllQuestion = () => {
   useEffect(() => {
     // New useEffect to update displayed questions
     updateDisplayedQuestions(questions); // Update when questions or currentPage changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions, currentPage]);
 
   const updateDisplayedQuestions = (allQuestions) => {
