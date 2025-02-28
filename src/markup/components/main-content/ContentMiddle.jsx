@@ -26,13 +26,27 @@ const ContentMiddle = () => {
             <li className="nav-item" role="presentation">
               <button
                 className="nav-link active"
+                id="featured-question-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#featured-question"
+                type="button"
+                role="tab"
+                aria-controls="featured-question"
+                aria-selected="true"
+              >
+                Featured Question
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
                 id="recent-questions-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#recent-questions"
                 type="button"
                 role="tab"
                 aria-controls="recent-questions"
-                aria-selected="true"
+                aria-selected="false"
               >
                 Recent Questions
               </button>
@@ -65,23 +79,12 @@ const ContentMiddle = () => {
                 Unanswered Question
               </button>
             </li>
-            <li className="nav-item" role="presentation">
-              <button
-                className="nav-link"
-                id="featured-question-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#featured-question"
-                type="button"
-                role="tab"
-                aria-controls="featured-question"
-                aria-selected="false"
-              >
-                Featured Question
-              </button>
-            </li>
           </ul>
 
           <div className="tab-content" id="myTabContent">
+            {/* Featured Question Tab */}
+            <FeaturedQuestion />
+
             {/* Recent Questions Tab */}
             <RecentQuestion />
 
@@ -90,9 +93,6 @@ const ContentMiddle = () => {
 
             {/* Unanswered Question Tab */}
             <UnansweredQuestion />
-
-            {/* Featured Question Tab */}
-            <FeaturedQuestion />
           </div>
         </div>
       </div>

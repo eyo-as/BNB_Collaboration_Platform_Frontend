@@ -97,7 +97,7 @@ const RecentQuestion = () => {
   return (
     <>
       <div
-        className="tab-pane fade show active"
+        className="tab-pane fade"
         id="recent-questions"
         role="tabpanel"
         aria-labelledby="recent-questions-tab"

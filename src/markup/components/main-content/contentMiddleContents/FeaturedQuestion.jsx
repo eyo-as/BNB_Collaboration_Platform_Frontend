@@ -104,7 +104,7 @@ const FeaturedQuestion = () => {
   return (
     <>
       <div
-        className="tab-pane fade"
+        className="tab-pane fade show active"
         id="featured-question"
         role="tabpanel"
         aria-labelledby="featured-question-tab"
@@ -120,8 +120,8 @@ const FeaturedQuestion = () => {
                 <div key={question.question_id}>
                   <div className="single-qa-box like-dislike">
                     <div className="d-flex">
-                      <div className="link-unlike flex-shrink-0">
-                        <span className="md:p-0 p-2">
+                      <div className="link-unlike flex-shrink-0 pt-1.5">
+                        <span>
                           <FaUser size={35} color="#000" />
                         </span>
 
@@ -153,7 +153,7 @@ const FeaturedQuestion = () => {
                                 : "No answers yet"}
                             </span>
                           </li>
-                          <li>
+                          <li className="lg:pt-2">
                             <span>In:</span>
                             {(() => {
                               const firstTag =
@@ -246,7 +246,9 @@ const FeaturedQuestion = () => {
                         </div>
                       </div>
                     </div>
-                    <span className="featured">Featured</span>
+                    <div className="absolute top-0 right-0 bg-orange-100 text-orange-600 inline-block px-2.5 py-1.25 text-xs">
+                      Featured
+                    </div>
                   </div>
                 </div>
               );
