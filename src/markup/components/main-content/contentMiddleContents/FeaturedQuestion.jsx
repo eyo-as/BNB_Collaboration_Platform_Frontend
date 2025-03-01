@@ -185,56 +185,19 @@ const FeaturedQuestion = () => {
 
                         <div className="d-flex justify-content-between align-items-center">
                           <ul className="anser-list">
-                            <li>{question.upvotes} Vote</li>
+                            <li>
+                              Created at:{" "}
+                              <span>
+                                {new Date(
+                                  question.created_at
+                                ).toLocaleDateString()}
+                              </span>
+                            </li>
                             <li>
                               {answerCount} Answer
                               {answerCount !== 1 ? "s" : ""}
                             </li>
-                            <li>658 Views</li>
-                            <li>
-                              <ul className="qa-share">
-                                <li className="share-option">
-                                  <span>
-                                    <i className="ri-share-fill"></i>
-                                  </span>
-
-                                  <ul className="social-icon">
-                                    <li>
-                                      <a
-                                        href="https://www.facebook.com/"
-                                        target="_blank"
-                                      >
-                                        <i className="ri-facebook-fill"></i>
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="https://www.twitter.com/"
-                                        target="_blank"
-                                      >
-                                        <i className="ri-twitter-line"></i>
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="https://www.linkedin.com/"
-                                        target="_blank"
-                                      >
-                                        <i className="ri-linkedin-fill"></i>
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="https://www.instagram.com/"
-                                        target="_blank"
-                                      >
-                                        <i className="ri-instagram-line"></i>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li>
+                            <li>{question.upvotes} Vote</li>
                           </ul>
 
                           <Link
