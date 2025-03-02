@@ -5,6 +5,7 @@ import { getAllQuestionService } from "../../../../service/question.service";
 import { FaUser } from "react-icons/fa6";
 import { jwtDecode } from "jwt-decode";
 import Pagination from "../../pagination/Pagination";
+import { createVoteService } from "../../../../service/vote.service";
 
 const FeaturedQuestion = () => {
   const [questions, setAllQuestions] = useState([]);
@@ -13,6 +14,7 @@ const FeaturedQuestion = () => {
   const questionsPerPage = 3;
   const [questionsToDisplay, setQuestionsToDisplay] = useState([]);
   const [answersCache, setAnswersCache] = useState({});
+  const [userVotes, setUserVotes] = useState({}); // Track user's vote state for each question
 
   const token = localStorage.getItem("token");
   const decoded = jwtDecode(token);
@@ -96,6 +98,68 @@ const FeaturedQuestion = () => {
     )[0];
   };
 
+  // Handle voting for questions
+  const handleVote = async (questionId, voteType) => {
+    try {
+      const currentVote = userVotes[questionId]; // Get the user's current vote state
+      let newVoteType = voteType;
+
+      // Toggle vote if the user clicks the same button again
+      if (currentVote === voteType) {
+        newVoteType = null; // Remove the vote
+      }
+
+      // Send the vote request to the backend
+      const response = await createVoteService(
+        {
+          user_id: decoded.user_id,
+          question_id: questionId,
+          vote_type: newVoteType,
+        },
+        token
+      );
+
+      if (response.success) {
+        // Update the question's vote count in the UI
+        const updatedQuestions = questions.map((question) => {
+          if (question.question_id === questionId) {
+            let upvotes = question.upvotes;
+            let downvotes = question.downvotes;
+
+            if (currentVote === "upvote" && newVoteType === null) {
+              upvotes -= 1; // Remove upvote
+            } else if (currentVote === "downvote" && newVoteType === null) {
+              downvotes -= 1; // Remove downvote
+            } else if (newVoteType === "upvote") {
+              if (currentVote === "downvote") downvotes -= 1; // Switch from downvote to upvote
+              upvotes += 1;
+            } else if (newVoteType === "downvote") {
+              if (currentVote === "upvote") upvotes -= 1; // Switch from upvote to downvote
+              downvotes += 1;
+            }
+
+            return {
+              ...question,
+              upvotes,
+              downvotes,
+            };
+          }
+          return question;
+        });
+
+        setAllQuestions(updatedQuestions);
+
+        // Update the user's vote state
+        setUserVotes((prev) => ({
+          ...prev,
+          [questionId]: newVoteType,
+        }));
+      }
+    } catch (error) {
+      console.error("Error voting:", error);
+    }
+  };
+
   // Handle pagination change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -115,6 +179,7 @@ const FeaturedQuestion = () => {
               const answers = answersCache[question.question_id] || [];
               const latestAnswer = getLatestAnswer(question.question_id);
               const answerCount = answers.length;
+              const userVote = userVotes[question.question_id]; // Get the user's vote state
 
               return (
                 <div key={question.question_id}>
@@ -126,14 +191,28 @@ const FeaturedQuestion = () => {
                         </span>
 
                         <div className="donet-like-list">
-                          <button className="like-unlink-count like">
+                          <button
+                            className={`like-unlink-count like ${
+                              userVote === "upvote" ? "active" : ""
+                            }`}
+                            onClick={() =>
+                              handleVote(question.question_id, "upvote")
+                            }
+                          >
                             <i className="ri-thumb-up-fill"></i>
                             <span>{question.upvotes}</span>
                           </button>
                         </div>
 
                         <div className="donet-like-list">
-                          <button className="like-unlink-count dislike">
+                          <button
+                            className={`like-unlink-count dislike ${
+                              userVote === "downvote" ? "active" : ""
+                            }`}
+                            onClick={() =>
+                              handleVote(question.question_id, "downvote")
+                            }
+                          >
                             <i className="ri-thumb-down-fill"></i>
                             <span>{question.downvotes}</span>
                           </button>
