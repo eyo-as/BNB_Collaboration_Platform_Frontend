@@ -15,30 +15,51 @@ const FeaturedQuestion = () => {
   const [questionsToDisplay, setQuestionsToDisplay] = useState([]);
   const [answersCache, setAnswersCache] = useState({});
   const [userVotes, setUserVotes] = useState({}); // Track user's vote state for each question
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [decoded, setDecoded] = useState(null);
 
-  const token = localStorage.getItem("token");
-  const decoded = jwtDecode(token);
-
-  // Fetch all questions
+  // Check if the user is logged in and decode the token
   useEffect(() => {
-    getAllQuestionService(token)
-      .then((res) => {
-        const allQuestions = res.response.data.data?.map((question) => ({
-          ...question,
-          tags: question.tags || "", // Ensure tags is at least an empty string
-        }));
-        setAllQuestions(allQuestions);
-        setTotalPages(Math.ceil(allQuestions.length / questionsPerPage));
+    const token = localStorage.getItem("token");
 
-        // Fetch answers for all questions
-        allQuestions.forEach((question) => {
-          fetchAnswersForQuestion(question.question_id);
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setDecoded(decodedToken);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Invalid or expired token:", error);
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  // Fetch all questions if the user is logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      const token = localStorage.getItem("token");
+      getAllQuestionService(token)
+        .then((res) => {
+          const allQuestions = res.response.data.data?.map((question) => ({
+            ...question,
+            tags: question.tags || "", // Ensure tags is at least an empty string
+          }));
+          setAllQuestions(allQuestions);
+          setTotalPages(Math.ceil(allQuestions.length / questionsPerPage));
+
+          // Fetch answers for all questions
+          allQuestions.forEach((question) => {
+            fetchAnswersForQuestion(question.question_id);
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching questions:", error);
         });
-      })
-      .catch((error) => {
-        console.log("Error fetching questions:", error);
-      });
-  }, [token]);
+    }
+  }, [isLoggedIn]);
 
   // Update displayed questions when pagination or answersCache changes
   useEffect(() => {
@@ -74,6 +95,7 @@ const FeaturedQuestion = () => {
   // Fetch answers for a specific question
   const fetchAnswersForQuestion = async (questionId) => {
     try {
+      const token = localStorage.getItem("token");
       const res = await getAnswersByQuestionIdService(questionId, token);
       if (res.success) {
         setAnswersCache((prev) => ({
@@ -101,6 +123,7 @@ const FeaturedQuestion = () => {
   // Handle voting for questions
   const handleVote = async (questionId, voteType) => {
     try {
+      const token = localStorage.getItem("token");
       const currentVote = userVotes[questionId]; // Get the user's current vote state
       let newVoteType = voteType;
 
@@ -167,143 +190,149 @@ const FeaturedQuestion = () => {
 
   return (
     <>
-      <div
-        className="tab-pane fade show active"
-        id="featured-question"
-        role="tabpanel"
-        aria-labelledby="featured-question-tab"
-      >
-        <div>
+      {isLoggedIn ? (
+        <div
+          className="tab-pane fade show active"
+          id="featured-question"
+          role="tabpanel"
+          aria-labelledby="featured-question-tab"
+        >
           <div>
-            {questionsToDisplay?.map((question) => {
-              const answers = answersCache[question.question_id] || [];
-              const latestAnswer = getLatestAnswer(question.question_id);
-              const answerCount = answers.length;
-              const userVote = userVotes[question.question_id]; // Get the user's vote state
+            <div>
+              {questionsToDisplay?.map((question) => {
+                const answers = answersCache[question.question_id] || [];
+                const latestAnswer = getLatestAnswer(question.question_id);
+                const answerCount = answers.length;
+                const userVote = userVotes[question.question_id]; // Get the user's vote state
 
-              return (
-                <div key={question.question_id}>
-                  <div className="single-qa-box like-dislike">
-                    <div className="d-flex">
-                      <div className="link-unlike flex-shrink-0 pt-1.5">
-                        <span>
-                          <FaUser size={35} color="#000" />
-                        </span>
+                return (
+                  <div key={question.question_id}>
+                    <div className="single-qa-box like-dislike">
+                      <div className="d-flex">
+                        <div className="link-unlike flex-shrink-0 pt-1.5">
+                          <span>
+                            <FaUser size={35} color="#000" />
+                          </span>
 
-                        <div className="donet-like-list">
-                          <button
-                            className={`like-unlink-count like ${
-                              userVote === "upvote" ? "active" : ""
-                            }`}
-                            onClick={() =>
-                              handleVote(question.question_id, "upvote")
-                            }
-                          >
-                            <i className="ri-thumb-up-fill"></i>
-                            <span>{question.upvotes}</span>
-                          </button>
-                        </div>
-
-                        <div className="donet-like-list">
-                          <button
-                            className={`like-unlink-count dislike ${
-                              userVote === "downvote" ? "active" : ""
-                            }`}
-                            onClick={() =>
-                              handleVote(question.question_id, "downvote")
-                            }
-                          >
-                            <i className="ri-thumb-down-fill"></i>
-                            <span>{question.downvotes}</span>
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="flex-grow-1 ms-3">
-                        <ul className="graphic-design">
-                          <li className="text-black">{decoded.username}</li>
-                          <li>
-                            <span>
-                              Latest Answer:{" "}
-                              {latestAnswer
-                                ? new Date(
-                                    latestAnswer.created_at
-                                  ).toLocaleDateString()
-                                : "No answers yet"}
-                            </span>
-                          </li>
-                          <li className="lg:pt-2">
-                            <span>In:</span>
-                            {(() => {
-                              const firstTag =
-                                question.tags?.split(",")[0] || "General";
-                              return (
-                                <span className="text-orange-400 font-bold">
-                                  {" "}
-                                  {firstTag}
-                                </span>
-                              );
-                            })()}
-                          </li>
-                        </ul>
-
-                        <h3>{question.title}</h3>
-
-                        <p>{question.description}</p>
-
-                        <ul className="tag-list">
-                          {(question.tags?.split(",") || []).map((tag, i) => (
-                            <li
-                              key={i}
-                              className="border p-1 rounded text-black"
+                          <div className="donet-like-list">
+                            <button
+                              className={`like-unlink-count like ${
+                                userVote === "upvote" ? "active" : ""
+                              }`}
+                              onClick={() =>
+                                handleVote(question.question_id, "upvote")
+                              }
                             >
-                              {tag.trim()}
-                            </li>
-                          ))}
-                        </ul>
+                              <i className="ri-thumb-up-fill"></i>
+                              <span>{question.upvotes}</span>
+                            </button>
+                          </div>
 
-                        <div className="d-flex justify-content-between align-items-center">
-                          <ul className="anser-list">
+                          <div className="donet-like-list">
+                            <button
+                              className={`like-unlink-count dislike ${
+                                userVote === "downvote" ? "active" : ""
+                              }`}
+                              onClick={() =>
+                                handleVote(question.question_id, "downvote")
+                              }
+                            >
+                              <i className="ri-thumb-down-fill"></i>
+                              <span>{question.downvotes}</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex-grow-1 ms-3">
+                          <ul className="graphic-design">
+                            <li className="text-black">{decoded.username}</li>
                             <li>
-                              Created at:{" "}
                               <span>
-                                {new Date(
-                                  question.created_at
-                                ).toLocaleDateString()}
+                                Latest Answer:{" "}
+                                {latestAnswer
+                                  ? new Date(
+                                      latestAnswer.created_at
+                                    ).toLocaleDateString()
+                                  : "No answers yet"}
                               </span>
                             </li>
-                            <li>
-                              {answerCount} Answer
-                              {answerCount !== 1 ? "s" : ""}
+                            <li className="lg:pt-2">
+                              <span>In:</span>
+                              {(() => {
+                                const firstTag =
+                                  question.tags?.split(",")[0] || "General";
+                                return (
+                                  <span className="text-orange-400 font-bold">
+                                    {" "}
+                                    {firstTag}
+                                  </span>
+                                );
+                              })()}
                             </li>
-                            <li>{question.upvotes} Vote</li>
                           </ul>
 
-                          <Link
-                            to={`/questions/${question.question_id}/answers`}
-                            className="default-btn"
-                          >
-                            Answer
-                          </Link>
+                          <h3>{question.title}</h3>
+
+                          <p>{question.description}</p>
+
+                          <ul className="tag-list">
+                            {(question.tags?.split(",") || []).map((tag, i) => (
+                              <li
+                                key={i}
+                                className="border p-1 rounded text-black"
+                              >
+                                {tag.trim()}
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className="d-flex justify-content-between align-items-center">
+                            <ul className="anser-list">
+                              <li>
+                                Created at:{" "}
+                                <span>
+                                  {new Date(
+                                    question.created_at
+                                  ).toLocaleDateString()}
+                                </span>
+                              </li>
+                              <li>
+                                {answerCount} Answer
+                                {answerCount !== 1 ? "s" : ""}
+                              </li>
+                              <li>{question.upvotes} Vote</li>
+                            </ul>
+
+                            <Link
+                              to={`/questions/${question.question_id}/answers`}
+                              className="default-btn"
+                            >
+                              Answer
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="absolute top-0 right-0 bg-orange-100 text-orange-600 inline-block px-2.5 py-1.25 text-xs">
-                      Featured
+                      <div className="absolute top-0 right-0 bg-orange-100 text-orange-600 inline-block px-2.5 py-1.25 text-xs">
+                        Featured
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      ) : (
+        <div>
+          <h1>Please login to view featured questions</h1>
+        </div>
+      )}
     </>
   );
 };

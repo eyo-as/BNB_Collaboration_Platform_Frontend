@@ -17,7 +17,7 @@ const GetAnswerByQuestionId = () => {
   const token = localStorage.getItem("token");
   const [questions, setQuestions] = useState([]);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
-  const [userVotes, setUserVotes] = useState({}); 
+  const [userVotes, setUserVotes] = useState({});
 
   useEffect(() => {
     const fetchAnswers = async () => {
