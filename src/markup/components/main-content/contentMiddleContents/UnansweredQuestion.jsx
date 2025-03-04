@@ -173,7 +173,7 @@ const UnansweredQuestion = () => {
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn && (
         <div
           className="tab-pane fade"
           id="unanswered-question"
@@ -306,10 +306,6 @@ const UnansweredQuestion = () => {
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
-        </div>
-      ) : (
-        <div>
-          <h1 className="text-center">Please login to view this page</h1>
         </div>
       )}
     </>

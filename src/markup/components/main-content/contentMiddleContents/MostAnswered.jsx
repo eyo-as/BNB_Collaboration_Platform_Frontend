@@ -177,7 +177,7 @@ const MostAnswered = () => {
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn && (
         <div
           className="tab-pane fade"
           id="most-answered"
@@ -311,10 +311,6 @@ const MostAnswered = () => {
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
-        </div>
-      ) : (
-        <div>
-          <h1>Please login to view this </h1>
         </div>
       )}
     </>

@@ -183,7 +183,7 @@ const RecentQuestion = () => {
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn && (
         <div
           className="tab-pane fade"
           id="recent-questions"
@@ -317,10 +317,6 @@ const RecentQuestion = () => {
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
-        </div>
-      ) : (
-        <div>
-          <h1>Please login to view recent questions</h1>
         </div>
       )}
     </>
