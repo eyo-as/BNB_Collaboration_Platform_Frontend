@@ -18,6 +18,13 @@ const FeaturedQuestion = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decoded, setDecoded] = useState(null);
 
+  // function to remove token from local storage
+  const removeToken = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setDecoded(null);
+  };
+
   // Check if the user is logged in and decode the token
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,8 +36,8 @@ const FeaturedQuestion = () => {
         setIsLoggedIn(true);
       } catch (error) {
         console.error("Invalid or expired token:", error);
-        localStorage.removeItem("token");
         setIsLoggedIn(false);
+        removeToken();
       }
     } else {
       setIsLoggedIn(false);
@@ -57,6 +64,7 @@ const FeaturedQuestion = () => {
         })
         .catch((error) => {
           console.log("Error fetching questions:", error);
+          removeToken();
         });
     }
   }, [isLoggedIn]);
@@ -108,6 +116,7 @@ const FeaturedQuestion = () => {
         `Error fetching answers for question ${questionId}:`,
         error
       );
+      removeToken();
     }
   };
 
@@ -180,6 +189,7 @@ const FeaturedQuestion = () => {
       }
     } catch (error) {
       console.error("Error voting:", error);
+      removeToken();
     }
   };
 
