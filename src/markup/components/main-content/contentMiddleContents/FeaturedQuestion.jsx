@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa6";
 import { jwtDecode } from "jwt-decode";
 import Pagination from "../../pagination/Pagination";
 import { createVoteService } from "../../../../service/vote.service";
+import LoginPrompt from "../../loginPromp/LoginPrompt";
 
 const FeaturedQuestion = () => {
   const [questions, setAllQuestions] = useState([]);
@@ -340,7 +341,7 @@ const FeaturedQuestion = () => {
         </div>
       ) : (
         <div>
-          <h1>Please login to view featured questions</h1>
+          <LoginPrompt />
         </div>
       )}
     </>
