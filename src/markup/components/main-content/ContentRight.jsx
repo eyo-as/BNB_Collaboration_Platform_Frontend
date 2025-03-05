@@ -1,14 +1,33 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const ContentRight = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   return (
     <>
       <div className="col-lg-3">
         <div className="right-siderbar">
           <div className="right-siderbar-common">
-            <Link to={"/ask-question"} className="default-btn">
-              Ask a question
-            </Link>
+            {isLoggedIn ? (
+              <Link to={"/ask-question"} className="default-btn">
+                Ask a Question
+              </Link>
+            ) : (
+              <Link to={"/login"} className="default-btn">
+                Login to Ask question
+              </Link>
+            )}
           </div>
 
           <div className="right-siderbar-common">

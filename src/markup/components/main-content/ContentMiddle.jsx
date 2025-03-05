@@ -15,7 +15,6 @@ const ContentMiddle = () => {
               className="form-control"
               placeholder="Have a question? Ask or enter a search"
             />
-            <button className="aq-btn">Ask Question</button>
           </form>
 
           <ul

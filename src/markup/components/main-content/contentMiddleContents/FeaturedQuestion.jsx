@@ -340,7 +340,7 @@ const FeaturedQuestion = () => {
           />
         </div>
       ) : (
-        <div>
+        <div className="py-12">
           <LoginPrompt />
         </div>
       )}
