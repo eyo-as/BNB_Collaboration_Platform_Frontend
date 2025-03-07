@@ -1,8 +1,21 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const ContentLeft = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const user = jwtDecode(token);
+
+      if (user.role === "admin") {
+        setIsAuthorized(true);
+      }
+    }
+  }, []);
   return (
     <>
       <div className="col-lg-3">
@@ -36,6 +49,17 @@ const ContentLeft = () => {
                         </span>
                       </Link>
                     </li>
+
+                    {isAuthorized && (
+                      <li>
+                        <Link to={"/"} className="box-style active">
+                          <span className="menu-title">
+                            <i className="ri-home-8-line"></i>
+                            Admin Dashboard
+                          </span>
+                        </Link>
+                      </li>
+                    )}
 
                     <li>
                       <div

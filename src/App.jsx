@@ -29,6 +29,7 @@ import SingleQuestionPage from "./markup/pages/question/SingleQuestionPage";
 import CreateAnswer from "./markup/pages/answer/CreateAnswer";
 import GetAnswerByQuestionIdPage from "./markup/pages/answer/GetAnswerByQuestionIdPage";
 import Unauthorized from "./markup/components/unauthorized/Unauthorized";
+import ProtectedRoute from "./markup/components/auth/ProtectedRoute";
 
 const App = () => {
   return (
@@ -57,10 +58,18 @@ const App = () => {
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/user-profile" element={<Profile />} />
-          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/users" element={<GetAllUser />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </>

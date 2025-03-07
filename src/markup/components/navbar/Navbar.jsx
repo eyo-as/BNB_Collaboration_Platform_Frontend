@@ -1,6 +1,21 @@
+import { useEffect, useState } from "react";
 import logo from "../../../assets/images/logo3.png";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 const Navbar = () => {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const user = jwtDecode(token);
+
+      if (user.role === "admin") {
+        setIsAuthorized(true);
+      }
+    }
+  }, []);
+
   return (
     <>
       <div className="navbar-area">
@@ -47,12 +62,14 @@ const Navbar = () => {
                     </Link>
                   </li>
 
-                  <li className="nav-item">
-                    <Link to={"/pages"} className="nav-link dropdown-toggle">
-                      {" "}
-                      Pages{" "}
-                    </Link>
-                  </li>
+                  {isAuthorized && (
+                    <li className="nav-item">
+                      <Link to={"/admin"} className="nav-link">
+                        {" "}
+                        Admin{" "}
+                      </Link>
+                    </li>
+                  )}
                 </ul>
 
                 <div className="others-options">
