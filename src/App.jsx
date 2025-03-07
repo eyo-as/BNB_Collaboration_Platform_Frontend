@@ -28,6 +28,7 @@ import QuestionList from "./markup/pages/question/QuestionList";
 import SingleQuestionPage from "./markup/pages/question/SingleQuestionPage";
 import CreateAnswer from "./markup/pages/answer/CreateAnswer";
 import GetAnswerByQuestionIdPage from "./markup/pages/answer/GetAnswerByQuestionIdPage";
+import Unauthorized from "./markup/components/unauthorized/Unauthorized";
 
 const App = () => {
   return (
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/users" element={<GetAllUser />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </Layout>
     </>
