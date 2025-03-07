@@ -109,14 +109,6 @@ const Login = () => {
               </div>
 
               <div className="col-12">
-                <div className="login-action">
-                  <span className="forgot-login">
-                    <a href="register.html">Forgot Password?</a>
-                  </span>
-                </div>
-              </div>
-
-              <div className="col-12">
                 <button className="default-btn" type="submit">
                   Log In
                 </button>

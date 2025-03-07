@@ -68,6 +68,7 @@ const Register = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <>
       <div className="page-title-area p-8">
@@ -95,7 +96,7 @@ const Register = () => {
         </div>
       </div>
 
-      <div className="sign-up-area py-8">
+      <div className="sign-up-area py-12">
         <div className="container">
           <form className="user-form" onSubmit={handleSubmit}>
             <p
@@ -108,7 +109,7 @@ const Register = () => {
 
             <div className="row">
               <div className="col-12">
-                <div className="form-group flex">
+                <div className="form-group">
                   <input
                     className="form-control"
                     type="text"
@@ -165,20 +166,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <div className="col-6">
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="role"
-                    value="student"
-                    readOnly
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="col-6">
+              <div className="col-12">
                 <div className="form-group">
                   <select
                     className="form-control"
@@ -211,8 +199,8 @@ const Register = () => {
                       htmlFor="flexCheckDefault"
                     >
                       I agree to the
-                      <a href="terms-conditions.html"> Terms of Use</a> and
-                      <a href="privacy-policy.html"> Privacy Policy</a>
+                      <Link to="/terms-conditions"> Terms of Use</Link> and
+                      <Link to="/privacy-policy"> Privacy Policy</Link>
                     </label>
                   </div>
                 </div>
