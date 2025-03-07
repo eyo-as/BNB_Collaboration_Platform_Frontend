@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import Pagination from "../../pagination/Pagination";
 import { createVoteService } from "../../../../service/vote.service";
 import LoginPrompt from "../../loginPromp/LoginPrompt";
+import { getSingleUser } from "../../../../service/user.service";
 
 const FeaturedQuestion = () => {
   const [questions, setAllQuestions] = useState([]);
@@ -18,6 +19,37 @@ const FeaturedQuestion = () => {
   const [userVotes, setUserVotes] = useState({}); // Track user's vote state for each question
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decoded, setDecoded] = useState(null);
+  const [usernames, setUsernames] = useState({}); // Store usernames by user_id
+
+  // Fetch user details and store usernames
+  const fetchUsername = async (userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = await getSingleUser(userId, token);
+      setUsernames((prev) => ({
+        ...prev,
+        [userId]: user.data.data.username,
+      }));
+    } catch (error) {
+      console.error("Error fetching username:", error);
+    }
+  };
+
+  // Fetch usernames for all questions
+  useEffect(() => {
+    if (isLoggedIn && questions.length > 0) {
+      questions.forEach((question) => {
+        if (!usernames[question.user_id]) {
+          fetchUsername(question.user_id);
+        }
+      });
+    }
+  }, [isLoggedIn, questions]);
+
+  // Render username instead of user_id
+  const renderUsername = (userId) => {
+    return usernames[userId] || `User ${userId}`; // Fallback to "User {id}" if username is not fetched yet
+  };
 
   // function to remove token from local storage
   const removeToken = () => {
@@ -256,7 +288,9 @@ const FeaturedQuestion = () => {
 
                         <div className="flex-grow-1 ms-3">
                           <ul className="graphic-design">
-                            <li className="text-black">{decoded.username}</li>
+                            <li className="text-black">
+                              {renderUsername(question.user_id)}
+                            </li>
                             <li>
                               <span>
                                 Latest Answer:{" "}
