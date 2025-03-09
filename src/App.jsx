@@ -59,7 +59,6 @@ const App = () => {
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/user-profile" element={<Profile />} />
-          <Route path="/users" element={<GetAllUser />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
@@ -71,7 +70,22 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/user/:user_id/delete" element={<DeleteUser />} />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <GetAllUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user/:user_id/delete"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <DeleteUser />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </>
