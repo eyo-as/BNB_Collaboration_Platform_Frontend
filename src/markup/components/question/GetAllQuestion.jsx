@@ -13,7 +13,7 @@ const GetAllQuestion = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const questionsPerPage = 10;
-  const [questionsToDisplay, setQuestionsToDisplay] = useState([]); // State for displayed questions
+  const [questionsToDisplay, setQuestionsToDisplay] = useState([]);
 
   useEffect(() => {
     getAllQuestionService(token)
@@ -40,8 +40,8 @@ const GetAllQuestion = () => {
   }, []);
 
   useEffect(() => {
-    // New useEffect to update displayed questions
-    updateDisplayedQuestions(questions); // Update when questions or currentPage changes
+    // Update displayed questions when questions or currentPage changes
+    updateDisplayedQuestions(questions);
   }, [questions, currentPage]);
 
   const updateDisplayedQuestions = (allQuestions) => {
@@ -66,11 +66,31 @@ const GetAllQuestion = () => {
             <ContentLeft />
             <div className="col-lg">
               <div className="middull-content">
+                {/* Descriptive Text */}
+                <div className="mb-8">
+                  <h1 className="text-3xl font-bold text-gray-800 mb-4">
+                    Here is a List of All Questions
+                  </h1>
+                  <p className="text-gray-600 mb-4">
+                    Browse through the list of questions posted by students and
+                    educators. You can view each question in detail or
+                    contribute by adding your own answers.
+                  </p>
+                  <p className="text-gray-600">
+                    If you do not find what you are looking for, feel free to{" "}
+                    <Link
+                      to="/ask-question"
+                      className="text-blue-500 hover:underline"
+                    >
+                      ask a new question
+                    </Link>
+                    .
+                  </p>
+                </div>
+
+                {/* Questions Table */}
                 <div>
-                  <span className="whitespace-nowrap text-xl font-bold text-black">
-                    List of Questions
-                  </span>
-                  <table className="table table-striped border table-hover table-responsive table-bordered table-striped ">
+                  <table className="table table-striped border table-hover table-responsive table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>Q_ID</th>
@@ -82,32 +102,26 @@ const GetAllQuestion = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {questionsToDisplay?.map(
-                        (
-                          question // Use questionsToDisplay here
-                        ) => {
-                          return (
-                            <tr key={question.question_id}>
-                              <td>{question.question_id}</td>
-                              <td>{question.title}</td>
-                              <td>{question.description}</td>
-                              <td>{question.tags}</td>
-                              <td>
-                                <Link to={`/questions/${question.question_id}`}>
-                                  View Question
-                                </Link>
-                              </td>
-                              <td>
-                                <Link
-                                  to={`/questions/${question.question_id}/answer`}
-                                >
-                                  Answer
-                                </Link>
-                              </td>
-                            </tr>
-                          );
-                        }
-                      )}
+                      {questionsToDisplay?.map((question) => (
+                        <tr key={question.question_id}>
+                          <td>{question.question_id}</td>
+                          <td>{question.title}</td>
+                          <td>{question.description}</td>
+                          <td>{question.tags}</td>
+                          <td>
+                            <Link to={`/questions/${question.question_id}`}>
+                              View Question
+                            </Link>
+                          </td>
+                          <td>
+                            <Link
+                              to={`/questions/${question.question_id}/answer`}
+                            >
+                              Answer
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                   <Pagination
@@ -115,6 +129,18 @@ const GetAllQuestion = () => {
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
                   />
+                </div>
+
+                {/* Additional Information for Students */}
+                <div className="mt-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                    Need Help with Your Studies?
+                  </h2>
+                  <p className="text-gray-600 mb-4">
+                    If you are struggling with a particular topic or concept, do
+                    not hesitate to ask for help. Our community is here to
+                    support you in your learning journey.
+                  </p>
                 </div>
               </div>
             </div>
