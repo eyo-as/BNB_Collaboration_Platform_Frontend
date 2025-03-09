@@ -30,6 +30,7 @@ import CreateAnswer from "./markup/pages/answer/CreateAnswer";
 import GetAnswerByQuestionIdPage from "./markup/pages/answer/GetAnswerByQuestionIdPage";
 import Unauthorized from "./markup/components/unauthorized/Unauthorized";
 import ProtectedRoute from "./markup/components/auth/ProtectedRoute";
+import DeleteUser from "./markup/pages/user/DeleteUser";
 
 const App = () => {
   return (
@@ -70,6 +71,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/user/:user_id/delete" element={<DeleteUser />} />
         </Routes>
       </Layout>
     </>

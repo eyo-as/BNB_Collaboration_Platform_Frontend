@@ -3,6 +3,8 @@ import { getAllUsers } from "../../../../service/user.service";
 import ContentLeft from "../../main-content/ContentLeft";
 import ContentRight from "../../main-content/ContentRight";
 import Pagination from "../../pagination/Pagination";
+import { FaTrash } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const GetAllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -10,7 +12,7 @@ const GetAllUsers = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const questionsPerPage = 10;
+  const userPerPage = 12;
   const [usersToDisplay, setUsersToDisplay] = useState([]); // State for displayed questions
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const GetAllUsers = () => {
       getAllUsers(token).then((res) => {
         const allUser = res.data;
         setUsers(allUser);
-        setTotalPages(Math.ceil(allUser.length / questionsPerPage));
+        setTotalPages(Math.ceil(allUser.length / userPerPage));
         updateDisplayedQuestions(allUser); // Update display on initial load
       });
     } catch (error) {
@@ -44,11 +46,8 @@ const GetAllUsers = () => {
   }, [users, currentPage]);
 
   const updateDisplayedQuestions = (allQuestions) => {
-    const startIndex = (currentPage - 1) * questionsPerPage;
-    const endIndex = Math.min(
-      startIndex + questionsPerPage,
-      allQuestions.length
-    );
+    const startIndex = (currentPage - 1) * userPerPage;
+    const endIndex = Math.min(startIndex + userPerPage, allQuestions.length);
     const displayedQuestions = allQuestions.slice(startIndex, endIndex);
     setUsersToDisplay(displayedQuestions);
   };
@@ -59,7 +58,7 @@ const GetAllUsers = () => {
 
   return (
     <>
-      <div className="main-content-area py-16 px-3">
+      <div className="main-content-area container py-16">
         <div className="row">
           <ContentLeft />
           <div className="col-lg">
@@ -72,6 +71,7 @@ const GetAllUsers = () => {
                     <th className="py-2">Email</th>
                     <th className="py-2">Class ID</th>
                     <th className="py-2">Role</th>
+                    <th className="py-2">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -82,6 +82,16 @@ const GetAllUsers = () => {
                       <td className="py-2">{user.email}</td>
                       <td className="py-2">{user.class_id}</td>
                       <td className="py-2">{user.role}</td>
+                      <td className="py-2 flex justify-center gap-2">
+                        <span>
+                          <Link
+                            to={`/user/${user.user_id}/delete`}
+                            className="text-black"
+                          >
+                            <FaTrash />
+                          </Link>
+                        </span>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
