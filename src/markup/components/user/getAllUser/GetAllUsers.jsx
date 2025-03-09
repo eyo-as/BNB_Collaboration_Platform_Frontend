@@ -1,49 +1,102 @@
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../../../service/user.service";
+import ContentLeft from "../../main-content/ContentLeft";
+import ContentRight from "../../main-content/ContentRight";
+import Pagination from "../../pagination/Pagination";
 
 const GetAllUsers = () => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const questionsPerPage = 10;
+  const [usersToDisplay, setUsersToDisplay] = useState([]); // State for displayed questions
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true); // 3. Set loading state
-
-      try {
-        const data = await getAllUsers(); // 1. Call the service
-        setUsers(data.data); // Set the users in state
-      } catch (err) {
-        setError(err.message); // 2. Handle errors
-        console.error("Component Error:", err);
-      } finally {
-        setLoading(false); // 3. Set loading to false
-      }
-    };
-
-    fetchUsers();
+    try {
+      const token = localStorage.getItem("token");
+      getAllUsers(token).then((res) => {
+        const allUser = res.data;
+        setUsers(allUser);
+        setTotalPages(Math.ceil(allUser.length / questionsPerPage));
+        updateDisplayedQuestions(allUser); // Update display on initial load
+      });
+    } catch (error) {
+      console.log("Error fetching all users: ", error);
+    }
   }, []);
 
-  if (loading) {
-    return <div>Loading users...</div>;
-  }
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth > 992);
+    };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    // New useEffect to update displayed questions
+    updateDisplayedQuestions(users); // Update when questions or currentPage changes
+  }, [users, currentPage]);
+
+  const updateDisplayedQuestions = (allQuestions) => {
+    const startIndex = (currentPage - 1) * questionsPerPage;
+    const endIndex = Math.min(
+      startIndex + questionsPerPage,
+      allQuestions.length
+    );
+    const displayedQuestions = allQuestions.slice(startIndex, endIndex);
+    setUsersToDisplay(displayedQuestions);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
-    <div className="p-5 font-sans">
-      {/* 4. Display data */}
-      <h1 className="text-2xl font-bold mb-4">User List</h1>
-      <ul className="list-disc pl-5">
-        {users?.map((user) => (
-          <li key={user.user_id} className="mb-2">
-            {user.username}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="main-content-area py-16 px-3">
+        <div className="row">
+          <ContentLeft />
+          <div className="col-lg">
+            <div className="overflow-x-auto">
+              <table className="bg-white border border-gray-300 table table-striped border table-hover table-responsive table-bordered table-striped">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="py-2">User ID</th>
+                    <th className="py-2">Username</th>
+                    <th className="py-2">Email</th>
+                    <th className="py-2">Class ID</th>
+                    <th className="py-2">Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {usersToDisplay?.map((user) => (
+                    <tr key={user.user_id} className="hover:bg-gray-50">
+                      <td className="py-2">{user.user_id}</td>
+                      <td className="py-2">{user.username}</td>
+                      <td className="py-2">{user.email}</td>
+                      <td className="py-2">{user.class_id}</td>
+                      <td className="py-2">{user.role}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </div>
+          {isLargeScreen && <ContentRight />}
+        </div>
+      </div>
+    </>
   );
 };
 
