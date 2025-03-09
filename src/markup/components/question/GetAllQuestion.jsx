@@ -115,7 +115,7 @@ const GetAllQuestion = () => {
                           </td>
                           <td>
                             <Link
-                              to={`/questions/${question.question_id}/answer`}
+                              to={`/questions/${question.question_id}/answers`}
                             >
                               Answer
                             </Link>
