@@ -118,8 +118,8 @@ const ContentRight = () => {
         <div className="right-siderbar">
           <div className="right-siderbar-common">
             {isLoggedIn ? (
-              <Link to={"/ask-question"} className="default-btn">
-                Ask Question
+              <Link to={"/questions"} className="default-btn whitespace-nowrap">
+                Get All Question
               </Link>
             ) : (
               <Link to={"/login"} className="default-btn">
