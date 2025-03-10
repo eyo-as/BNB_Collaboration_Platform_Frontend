@@ -99,54 +99,6 @@ const ContentLeft = () => {
                       </ul>
                     </li>
                     <li>
-                      <Link to={"/"} className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-links-line"></i>
-                          Communities
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <a
-                        href="most-answered.html"
-                        className="has-arrow box-style"
-                      >
-                        <i className="ri-question-answer-fill"></i>
-                        <span className="menu-title"> Most answered </span>
-                      </a>
-                      <ul className="sidemenu-nav-second-level">
-                        <li>
-                          <a href="most-answered.html">
-                            <span className="menu-title">Most answered</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="most-answered-details.html">
-                            <span className="menu-title">
-                              Most answered details
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href="unanswered.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-checkbox-circle-line"></i>
-                          Unanswered
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="most-visited.html" className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-eye-line"></i>
-                          Most visited
-                        </span>
-                      </a>
-                    </li>
-
-                    <li>
                       <Link to={"/about-us"} className="box-style">
                         <span className="menu-title">
                           <i className="ri-lightbulb-line"></i>
@@ -154,7 +106,6 @@ const ContentLeft = () => {
                         </span>
                       </Link>
                     </li>
-
                     <li>
                       <Link to={"/contact-us"} className="box-style">
                         <span className="menu-title">
