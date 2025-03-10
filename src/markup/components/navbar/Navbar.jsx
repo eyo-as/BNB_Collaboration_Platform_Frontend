@@ -2,19 +2,35 @@ import { useEffect, useState } from "react";
 import logo from "../../../assets/images/logo3.png";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+
 const Navbar = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
+  // Effect to check token and set user state
+  useEffect(() => {
     if (token) {
       const user = jwtDecode(token);
+      setUser(user);
+      setIsLoggedIn(true);
 
       if (user.role === "admin") {
         setIsAuthorized(true);
       }
+    } else {
+      setIsLoggedIn(false);
+      setIsAuthorized(false);
+      setUser({});
     }
-  }, []);
+  }, [token]);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+  };
 
   return (
     <>
@@ -45,17 +61,14 @@ const Navbar = () => {
                 <ul className="navbar-nav m-auto">
                   <li className="nav-item">
                     <Link to={"/"} className="nav-link active">
-                      {" "}
-                      Home{" "}
+                      Home
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link to={"/about-us"} className="nav-link">
-                      {" "}
-                      About Us{" "}
+                      About Us
                     </Link>
                   </li>
-
                   <li className="nav-item">
                     <Link to={"/contact-us"} className="nav-link">
                       Contact Us
@@ -65,8 +78,7 @@ const Navbar = () => {
                   {isAuthorized && (
                     <li className="nav-item">
                       <Link to={"/admin"} className="nav-link">
-                        {" "}
-                        Admin{" "}
+                        Admin
                       </Link>
                     </li>
                   )}
@@ -82,20 +94,38 @@ const Navbar = () => {
                           placeholder="Search for..."
                           className="form-control"
                         />
-
                         <button type="submit" className="search-btn">
                           <i className="ri-search-line"></i>
                         </button>
                       </form>
                     </li>
-                    <li>
-                      <Link to={"/login"} className="active">
-                        Log in
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/register"}>Sign up</Link>
-                    </li>
+                    <span>
+                      {!isLoggedIn ? (
+                        <span>
+                          <li>
+                            <Link to={"/login"} className="active">
+                              Log in
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to={"/register"}>Sign up</Link>
+                          </li>
+                        </span>
+                      ) : (
+                        <span>
+                          <li>
+                            <span className="border-l-4 p-2 text-white">
+                              Hi {user.username}
+                            </span>
+                          </li>
+                          <li>
+                            <Link className="active" onClick={handleLogout}>
+                              Log Out
+                            </Link>
+                          </li>
+                        </span>
+                      )}
+                    </span>
                   </ul>
                 </div>
               </div>
@@ -116,37 +146,6 @@ const Navbar = () => {
                 >
                   <i className="ri-menu-line text-3xl"></i>
                 </button>
-              </div>
-            </div>
-
-            <div className="container">
-              <div className="option-inner">
-                <div className="others-options justify-content-center d-flex align-items-center">
-                  <ul>
-                    <li>
-                      <form className="search-box">
-                        <input
-                          type="text"
-                          name="Search"
-                          placeholder="Search for..."
-                          className="form-control"
-                        />
-
-                        <button type="submit" className="search-btn">
-                          <i className="ri-search-line"></i>
-                        </button>
-                      </form>
-                    </li>
-                    <li>
-                      <Link to={"/login"} className="active">
-                        Log in
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/register"}>Sign up</Link>
-                    </li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
