@@ -7,9 +7,9 @@ import { getAllAnswersService } from "../../../service/answer.service";
 const ContentRight = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [latestUser, setLatestUser] = useState({});
-  const [latestQuestion, setLatestQuestion] = useState({});
-  const [latestAnswer, setLatestAnswer] = useState({});
+  const [latestUser, setLatestUser] = useState(null);
+  const [latestQuestion, setLatestQuestion] = useState(null);
+  const [latestAnswer, setLatestAnswer] = useState(null);
   const [userLength, setUserLength] = useState(0);
   const [questionLength, setQuestionLength] = useState(0);
   const [answerLength, setAnswerLength] = useState(0);
@@ -52,47 +52,64 @@ const ContentRight = () => {
 
   // Fetch user length and latest joined user
   useEffect(() => {
-    try {
-      getAllUsers(token).then((res) => {
-        const userLength = res.data.length;
-        setUserLength(userLength);
+    if (!token) return; // Skip if no token
 
-        const latestUser = res.data.at(-1);
-        setLatestUser(latestUser);
+    getAllUsers(token)
+      .then((res) => {
+        if (res && res.data) {
+          const userLength = res.data.length;
+          setUserLength(userLength);
+
+          const latestUser = res.data.at(-1);
+          setLatestUser(latestUser);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching users:", error);
       });
-    } catch (error) {
-      console.log("Error fetching user", error);
-    }
   }, [token]);
 
   // Fetch question length and latest question
   useEffect(() => {
-    try {
-      getAllQuestionService(token).then((res) => {
-        const questionLength = res.response.data.data.length;
-        setQuestionLength(questionLength);
+    if (!token) return; // Skip if no token
 
-        const latestQuestion = res.response.data.data.at(-1);
-        setLatestQuestion(latestQuestion);
+    getAllQuestionService(token)
+      .then((res) => {
+        if (
+          res &&
+          res.response &&
+          res.response.data &&
+          res.response.data.data
+        ) {
+          const questionLength = res.response.data.data.length;
+          setQuestionLength(questionLength);
+
+          const latestQuestion = res.response.data.data.at(-1);
+          setLatestQuestion(latestQuestion);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching questions:", error);
       });
-    } catch (error) {
-      console.log("Error fetching questions", error);
-    }
   }, [token]);
 
   // Fetch answer length and latest answer
   useEffect(() => {
-    try {
-      getAllAnswersService(token).then((res) => {
-        const answerLength = res.data.data.length;
-        setAnswerLength(answerLength);
+    if (!token) return; // Skip if no token
 
-        const latestAnswer = res.data.data.at(-1);
-        setLatestAnswer(latestAnswer);
+    getAllAnswersService(token)
+      .then((res) => {
+        if (res && res.data && res.data.data) {
+          const answerLength = res.data.data.length;
+          setAnswerLength(answerLength);
+
+          const latestAnswer = res.data.data.at(-1);
+          setLatestAnswer(latestAnswer);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching answers:", error);
       });
-    } catch (error) {
-      console.log("Error fetching answers", error);
-    }
   }, [token]);
 
   return (
@@ -106,7 +123,7 @@ const ContentRight = () => {
               </Link>
             ) : (
               <Link to={"/login"} className="default-btn">
-                Login to Ask question
+                Login to Ask Question
               </Link>
             )}
           </div>
@@ -158,89 +175,95 @@ const ContentRight = () => {
             </div>
           </div>
 
-          <div className="right-siderbar-common">
-            <div className="answer-count">
-              <ul className="d-flex flex-wrap">
-                <li>
-                  <span>Users</span>
-                  <span className="count">{userLength}</span>
-                </li>
-                <li>
-                  <span>Questions</span>
-                  <span className="count">{questionLength}</span>
-                </li>
-                <li>
-                  <span>Answers</span>
-                  <span className="count">{answerLength}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <div>
+            {token && (
+              <div>
+                <div className="right-siderbar-common">
+                  <div className="answer-count">
+                    <ul className="d-flex flex-wrap">
+                      <li>
+                        <span>Users</span>
+                        <span className="count">{userLength}</span>
+                      </li>
+                      <li>
+                        <span>Questions</span>
+                        <span className="count">{questionLength}</span>
+                      </li>
+                      <li>
+                        <span>Answers</span>
+                        <span className="count">{answerLength}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
 
-          <div className="right-siderbar-common">
-            <div className="recent-post">
-              <h3>
-                <i className="ri-discuss-line"></i>
-                Recent Actions
-              </h3>
+                <div className="right-siderbar-common">
+                  <div className="recent-post">
+                    <h3>
+                      <i className="ri-discuss-line"></i>
+                      Recent Actions
+                    </h3>
 
-              <ul>
-                <li>
-                  {latestUser && (
-                    <div className="items-center justify-between bg-gray-50 rounded-lg">
-                      <p className="text-gray-700">
-                        New user{" "}
-                        <span className="font-semibold text-blue-500">
-                          {latestUser.username}
-                        </span>{" "}
-                        joined the platform.
-                      </p>
-                      <span className="text-sm text-gray-500">
-                        {latestUser.created_at
-                          ? getTimeAgo(latestUser.created_at)
-                          : "N/A"}
-                      </span>
-                    </div>
-                  )}
-                </li>
-                <li>
-                  {latestQuestion && (
-                    <div className="items-center justify-between bg-gray-50 rounded-lg">
-                      <p className="text-gray-700">
-                        New question{" "}
-                        <span className="font-semibold text-green-500">
-                          {latestQuestion.title}
-                        </span>{" "}
-                        was posted.
-                      </p>
-                      <span className="text-sm text-gray-500">
-                        {latestQuestion.created_at
-                          ? getTimeAgo(latestQuestion.created_at)
-                          : "N/A"}
-                      </span>
-                    </div>
-                  )}
-                </li>
-                <li>
-                  {latestAnswer && (
-                    <div className="items-center justify-between bg-gray-50 rounded-lg">
-                      <p className="text-gray-700">
-                        New answer added to question{" "}
-                        <span className="font-semibold text-purple-500">
-                          #{latestAnswer.question_id}
-                        </span>
-                        .
-                      </p>
-                      <span className="text-sm text-gray-500">
-                        {latestAnswer.created_at
-                          ? getTimeAgo(latestAnswer.created_at)
-                          : "N/A"}
-                      </span>
-                    </div>
-                  )}
-                </li>
-              </ul>
-            </div>
+                    <ul>
+                      <li>
+                        {latestUser && (
+                          <div className="items-center justify-between bg-gray-50 rounded-lg">
+                            <p className="text-gray-700">
+                              New user{" "}
+                              <span className="font-semibold text-blue-500">
+                                {latestUser.username}
+                              </span>{" "}
+                              joined the platform.
+                            </p>
+                            <span className="text-sm text-gray-500">
+                              {latestUser.created_at
+                                ? getTimeAgo(latestUser.created_at)
+                                : "N/A"}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                      <li>
+                        {latestQuestion && (
+                          <div className="items-center justify-between bg-gray-50 rounded-lg">
+                            <p className="text-gray-700">
+                              New question{" "}
+                              <span className="font-semibold text-green-500">
+                                {latestQuestion.title}
+                              </span>{" "}
+                              was posted.
+                            </p>
+                            <span className="text-sm text-gray-500">
+                              {latestQuestion.created_at
+                                ? getTimeAgo(latestQuestion.created_at)
+                                : "N/A"}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                      <li>
+                        {latestAnswer && (
+                          <div className="items-center justify-between bg-gray-50 rounded-lg">
+                            <p className="text-gray-700">
+                              New answer added to question{" "}
+                              <span className="font-semibold text-purple-500">
+                                #{latestAnswer.question_id}
+                              </span>
+                              .
+                            </p>
+                            <span className="text-sm text-gray-500">
+                              {latestAnswer.created_at
+                                ? getTimeAgo(latestAnswer.created_at)
+                                : "N/A"}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

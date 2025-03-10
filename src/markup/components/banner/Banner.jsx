@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import banner from "../../../assets/images/banner/banner-img.png";
 import shape1 from "../../../assets/images/banner/shape-1.png";
 import shape2 from "../../../assets/images/banner/shape-2.png";
@@ -15,17 +16,17 @@ const Banner = () => {
             <div className="col-lg-6">
               <div className="banner-content">
                 <h1>BNB</h1>
-                <h3>
+                <h3 className="text-black">
                   Share & grow the worlds <span>knowledge</span>!
                 </h3>
-                <p>
+                <p className="text-black">
                   We want to connect with people who will share their knowledge
                   from one person to another.
                 </p>
-                <a href="user.html" className="default-btn">
+                <Link to={"/ask-question"} className="default-btn">
                   {" "}
-                  Create a free team{" "}
-                </a>
+                  Ask a Question{" "}
+                </Link>
               </div>
             </div>
 
