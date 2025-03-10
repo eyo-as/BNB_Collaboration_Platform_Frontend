@@ -1,8 +1,44 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllUsers } from "../../../service/user.service";
+import { getAllQuestionService } from "../../../service/question.service";
+import { getAllAnswersService } from "../../../service/answer.service";
 
 const ContentRight = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [latestUser, setLatestUser] = useState({});
+  const [latestQuestion, setLatestQuestion] = useState({});
+  const [latestAnswer, setLatestAnswer] = useState({});
+  const [userLength, setUserLength] = useState(0);
+  const [questionLength, setQuestionLength] = useState(0);
+  const [answerLength, setAnswerLength] = useState(0);
+
+  const token = localStorage.getItem("token");
+
+  // Utility function to calculate "time ago"
+  const getTimeAgo = (timestamp) => {
+    const now = new Date();
+    const createdDate = new Date(timestamp);
+    const seconds = Math.floor((now - createdDate) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval > 1) return `${interval} years ago`;
+
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) return `${interval} months ago`;
+
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) return `${interval} days ago`;
+
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) return `${interval} hours ago`;
+
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) return `${interval} minutes ago`;
+
+    return `${Math.floor(seconds)} seconds ago`;
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -14,6 +50,51 @@ const ContentRight = () => {
     }
   }, []);
 
+  // Fetch user length and latest joined user
+  useEffect(() => {
+    try {
+      getAllUsers(token).then((res) => {
+        const userLength = res.data.length;
+        setUserLength(userLength);
+
+        const latestUser = res.data.at(-1);
+        setLatestUser(latestUser);
+      });
+    } catch (error) {
+      console.log("Error fetching user", error);
+    }
+  }, [token]);
+
+  // Fetch question length and latest question
+  useEffect(() => {
+    try {
+      getAllQuestionService(token).then((res) => {
+        const questionLength = res.response.data.data.length;
+        setQuestionLength(questionLength);
+
+        const latestQuestion = res.response.data.data.at(-1);
+        setLatestQuestion(latestQuestion);
+      });
+    } catch (error) {
+      console.log("Error fetching questions", error);
+    }
+  }, [token]);
+
+  // Fetch answer length and latest answer
+  useEffect(() => {
+    try {
+      getAllAnswersService(token).then((res) => {
+        const answerLength = res.data.data.length;
+        setAnswerLength(answerLength);
+
+        const latestAnswer = res.data.data.at(-1);
+        setLatestAnswer(latestAnswer);
+      });
+    } catch (error) {
+      console.log("Error fetching answers", error);
+    }
+  }, [token]);
+
   return (
     <>
       <div className="col-lg-3">
@@ -21,7 +102,7 @@ const ContentRight = () => {
           <div className="right-siderbar-common">
             {isLoggedIn ? (
               <Link to={"/ask-question"} className="default-btn">
-                Ask a Question
+                Ask Question
               </Link>
             ) : (
               <Link to={"/login"} className="default-btn">
@@ -31,51 +112,46 @@ const ContentRight = () => {
           </div>
 
           <div className="right-siderbar-common">
-            <div className="category">
-              <h3>
-                <i className="ri-list-unordered"></i>
-                Categories
-              </h3>
-
-              <select
-                className="form-select"
-                aria-label="Default select example"
-              >
-                <option>Select category</option>
-                <option value="1">Discussion</option>
-                <option value="2">Language</option>
-                <option value="3">Analytics</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="right-siderbar-common">
             <div className="discussions">
               <h3>
                 <i className="ri-speaker-line"></i>
-                Top Discussions
+                Top Quotes
               </h3>
 
               <ul>
                 <li>
                   <a href="most-answered.html">
-                    The idea of how I will share my profile on social sites
+                    {
+                      '"Education is the most powerful weapon which you can use to change the world." - Nelson Mandela'
+                    }
                   </a>
                 </li>
                 <li>
                   <a href="most-answered.html">
-                    Discuss the rules for maintaining all the employees in the
-                    company
+                    {
+                      '"The function of education is to teach one to think intensively and to think critically." - Martin Luther King Jr.'
+                    }
                   </a>
                 </li>
                 <li>
                   <a href="most-answered.html">
-                    The best way to choose between a job and a business
+                    {
+                      '"The beautiful thing about learning is that no one can take it away from you." - B.B. King'
+                    }
                   </a>
                 </li>
                 <li>
                   <a href="most-answered.html">
-                    Which is the most important UIUX in terms of design?
+                    {
+                      '"Live as if you were to die tomorrow. Learn as if you were to live forever." - Mahatma Gandhi'
+                    }
+                  </a>
+                </li>
+                <li>
+                  <a href="most-answered.html">
+                    {
+                      '"The important thing is not to stop questioning. Curiosity has its own reason for existing." - Albert Einstein'
+                    }
                   </a>
                 </li>
               </ul>
@@ -86,28 +162,16 @@ const ContentRight = () => {
             <div className="answer-count">
               <ul className="d-flex flex-wrap">
                 <li>
+                  <span>Users</span>
+                  <span className="count">{userLength}</span>
+                </li>
+                <li>
                   <span>Questions</span>
-                  <span className="count">435</span>
+                  <span className="count">{questionLength}</span>
                 </li>
                 <li>
                   <span>Answers</span>
-                  <span className="count">435</span>
-                </li>
-                <li>
-                  <span>Best answers</span>
-                  <span className="count">324</span>
-                </li>
-                <li>
-                  <span>Users</span>
-                  <span className="count">2K</span>
-                </li>
-                <li>
-                  <span>Posts</span>
-                  <span className="count">852</span>
-                </li>
-                <li>
-                  <span>Comments</span>
-                  <span className="count">57</span>
+                  <span className="count">{answerLength}</span>
                 </li>
               </ul>
             </div>
@@ -117,80 +181,63 @@ const ContentRight = () => {
             <div className="recent-post">
               <h3>
                 <i className="ri-discuss-line"></i>
-                Recent post
+                Recent Actions
               </h3>
 
               <ul>
                 <li>
-                  <a href="most-answered.html">
-                    What could be UX design software?
-                  </a>
-                  <p>
-                    8 hours ago by <a href="user.html">Alan Woodson</a>
-                  </p>
+                  {latestUser && (
+                    <div className="items-center justify-between bg-gray-50 rounded-lg">
+                      <p className="text-gray-700">
+                        New user{" "}
+                        <span className="font-semibold text-blue-500">
+                          {latestUser.username}
+                        </span>{" "}
+                        joined the platform.
+                      </p>
+                      <span className="text-sm text-gray-500">
+                        {latestUser.created_at
+                          ? getTimeAgo(latestUser.created_at)
+                          : "N/A"}
+                      </span>
+                    </div>
+                  )}
                 </li>
                 <li>
-                  <a href="most-answered.html">
-                    All the new features that have been used in Windows 11
-                  </a>
-                  <p>
-                    11 hours ago by <a href="user.html">Juan McPhail</a>
-                  </p>
+                  {latestQuestion && (
+                    <div className="items-center justify-between bg-gray-50 rounded-lg">
+                      <p className="text-gray-700">
+                        New question{" "}
+                        <span className="font-semibold text-green-500">
+                          {latestQuestion.title}
+                        </span>{" "}
+                        was posted.
+                      </p>
+                      <span className="text-sm text-gray-500">
+                        {latestQuestion.created_at
+                          ? getTimeAgo(latestQuestion.created_at)
+                          : "N/A"}
+                      </span>
+                    </div>
+                  )}
                 </li>
                 <li>
-                  <a href="most-answered.html">
-                    What is the most important thing in learning design?
-                  </a>
-                  <p>
-                    11 hours ago by <a href="user.html">Vickie White</a>
-                  </p>
-                </li>
-                <li>
-                  <a href="most-answered.html">
-                    Which language is the most popular in the web right now?
-                  </a>
-                  <p>
-                    13 hours ago by <a href="user.html">Jose Merz</a>
-                  </p>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="right-siderbar-common">
-            <div className="trending-tags">
-              <h3>
-                <i className="ri-price-tag-3-line"></i>
-                Trending Tags
-              </h3>
-
-              <ul>
-                <li>
-                  <a href="tags.html"> discussion </a>
-                </li>
-                <li>
-                  <a href="tags.html"> analytics </a>
-                </li>
-                <li>
-                  <a href="tags.html"> company </a>
-                </li>
-                <li>
-                  <a href="tags.html"> life </a>
-                </li>
-                <li>
-                  <a href="tags.html"> computer </a>
-                </li>
-                <li>
-                  <a href="tags.html"> interview </a>
-                </li>
-                <li>
-                  <a href="tags.html"> grammer </a>
-                </li>
-                <li>
-                  <a href="tags.html"> convertion </a>
-                </li>
-                <li>
-                  <a href="tags.html"> google </a>
+                  {latestAnswer && (
+                    <div className="items-center justify-between bg-gray-50 rounded-lg">
+                      <p className="text-gray-700">
+                        New answer added to question{" "}
+                        <span className="font-semibold text-purple-500">
+                          #{latestAnswer.question_id}
+                        </span>
+                        .
+                      </p>
+                      <span className="text-sm text-gray-500">
+                        {latestAnswer.created_at
+                          ? getTimeAgo(latestAnswer.created_at)
+                          : "N/A"}
+                      </span>
+                    </div>
+                  )}
                 </li>
               </ul>
             </div>
