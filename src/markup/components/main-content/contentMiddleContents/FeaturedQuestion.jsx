@@ -13,7 +13,7 @@ const FeaturedQuestion = () => {
   const [questions, setAllQuestions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const questionsPerPage = 3;
+  const questionsPerPage = 4;
   const [questionsToDisplay, setQuestionsToDisplay] = useState([]);
   const [answersCache, setAnswersCache] = useState({});
   const [userVotes, setUserVotes] = useState({}); // Track user's vote state for each question
