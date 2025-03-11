@@ -31,7 +31,7 @@ const Login = () => {
       } else {
         setMessage(response.data + " redirect...");
         setTimeout(() => {
-          navigate("/ask-question");
+          navigate("/");
         }, 2000);
       }
     } catch (error) {
