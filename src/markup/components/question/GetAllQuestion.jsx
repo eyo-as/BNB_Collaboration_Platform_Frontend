@@ -60,7 +60,7 @@ const GetAllQuestion = () => {
 
   return (
     <div>
-      <div className="main-content-area ptb-100">
+      <div className="main-content-area ptb-100 overflow-auto">
         <div className="container">
           <div className="row">
             <ContentLeft />
@@ -95,9 +95,9 @@ const GetAllQuestion = () => {
                       <tr>
                         <th>Q_ID</th>
                         <th>Title</th>
-                        <th>Description</th>
+                        <th>Details</th>
                         <th>Tags</th>
-                        <th>View Question</th>
+                        <th>View</th>
                         <th>Answer</th>
                       </tr>
                     </thead>
