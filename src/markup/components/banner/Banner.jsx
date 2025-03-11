@@ -13,7 +13,7 @@ const Banner = () => {
       <div className="banner-area">
         <div className="container-fluid">
           <div className="row align-items-center">
-            <div className="col-lg-6">
+            <div className="col-lg-6 py-8">
               <div className="banner-content">
                 <h1>BNB</h1>
                 <h3 className="text-black">

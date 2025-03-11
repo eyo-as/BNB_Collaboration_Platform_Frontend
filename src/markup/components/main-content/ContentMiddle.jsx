@@ -8,14 +8,14 @@ const ContentMiddle = () => {
     <>
       <div className="col-lg-6">
         <div className="middull-content">
-          <form className="aq-form">
+          {/* <form className="aq-form">
             <i className="ri-search-line"></i>
             <input
               type="text"
               className="form-control"
               placeholder="Have a question? Ask or enter a search"
             />
-          </form>
+          </form> */}
 
           <ul
             className="nav nav-tabs questions-tabs d-flex justify-content-between"
