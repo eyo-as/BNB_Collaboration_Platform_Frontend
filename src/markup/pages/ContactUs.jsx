@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ContentLeft from "../components/main-content/ContentLeft";
 import { Link } from "react-router-dom";
+import Map from "../components/map/Map";
 
 const ContactUs = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
@@ -187,7 +188,7 @@ const ContactUs = () => {
                         <ul className="address">
                           <li>
                             <span>Call:</span>
-                            <a href="tel:+1-719-504-1984">+1 719-504-1984</a>
+                            <a href="tel:+1-719-504-1984"> 046 220 6090</a>
                           </li>
                           <li>
                             <span>Email:</span>
@@ -207,11 +208,12 @@ const ContactUs = () => {
                         </ul>
 
                         <div className="map-area">
-                          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2713.893524676537!2d-122.58847098419128!3d47.140352028062196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54910702082dcf29%3A0x93d011f7cb28f1ba!2zSG9yaXpvbiBTdCwgSm9pbnQgQmFzZSBMZXdpcy1NY0Nob3JkLCBXQSwg4Kau4Ka-4Kaw4KeN4KaV4Ka_4KaoIOCmr-CngeCmleCnjeCmpOCmsOCmvuCmt-CnjeCmn-CnjeCmsA!5e0!3m2!1sbn!2sbd!4v1641898735703!5m2!1sbn!2sbd"></iframe>
+                          {/* <iframe src="3FHM+WXM, Hawassa"></iframe> */}
+                          <Map />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>c
                 </div>
               </section>
             </div>
