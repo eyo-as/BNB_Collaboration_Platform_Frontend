@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "../../../assets/images/logo3.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const Navbar = () => {
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const navigate = useNavigate();
 
   // Effect to check token and set user state
   useEffect(() => {
@@ -30,6 +31,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
+    navigate("/");
   };
 
   return (

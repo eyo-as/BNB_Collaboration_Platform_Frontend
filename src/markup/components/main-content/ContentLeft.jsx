@@ -1,21 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 const ContentLeft = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const navigate = useNavigate();
 
+  useEffect(() => {
     if (token) {
       const user = jwtDecode(token);
+      setIsLoggedIn(true);
 
       if (user.role === "admin") {
         setIsAuthorized(true);
       }
+    } else {
+      setIsLoggedIn(false);
     }
-  }, []);
+  }, [token]);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    navigate("/");
+  };
+
   return (
     <>
       <div className="col-lg-3">
@@ -124,12 +137,21 @@ const ContentLeft = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/login"} className="box-style">
-                        <span className="menu-title">
-                          <i className="ri-login-box-line"></i>
-                          Sign in
-                        </span>
-                      </Link>
+                      {isLoggedIn ? (
+                        <Link onClick={handleLogout} className="box-style">
+                          <span className="menu-title">
+                            <i className="ri-login-box-line"></i>
+                            Log Out
+                          </span>
+                        </Link>
+                      ) : (
+                        <Link to={"/login"} className="box-style">
+                          <span className="menu-title">
+                            <i className="ri-login-box-line"></i>
+                            Sign In
+                          </span>
+                        </Link>
+                      )}
                     </li>
                   </ul>
                 </nav>
