@@ -65,7 +65,7 @@ const ContentLeft = () => {
 
                     {isAuthorized && (
                       <li>
-                        <Link to={"/"} className="box-style active">
+                        <Link to={"/admin"} className="box-style active">
                           <span className="menu-title">
                             <i className="ri-home-8-line"></i>
                             Admin Dashboard

@@ -102,4 +102,83 @@ const deleteUser = async (user_id, token) => {
   }
 };
 
-export { createUser, login, getAllUsers, getSingleUser, deleteUser };
+const updateUser = async (user_id, userData, token) => {
+  try {
+    const response = await axios.put(
+      `${api_url}/api/user/${user_id}`,
+      userData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+const totalUserQuestion = async (user_id, token) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/api/user/${user_id}/questions`,
+      {
+        headers: {
+          "Content-Type": "applications/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+const totalUserAnswer = async (user_id, token) => {
+  try {
+    const response = await axios.get(`${api_url}/api/user/${user_id}/answers`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return {
+      success: true,
+      data: response,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+export {
+  createUser,
+  login,
+  getAllUsers,
+  getSingleUser,
+  deleteUser,
+  updateUser,
+  totalUserQuestion,
+  totalUserAnswer,
+};
