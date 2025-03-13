@@ -12,7 +12,7 @@ import { FaUser } from "react-icons/fa6";
 const UserProfile = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
   const [user, setUser] = useState({});
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token] = useState(localStorage.getItem("token"));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userQuestionLength, setUserQuestionLength] = useState(null);
   const [userAnswerLength, setUserAnswerLength] = useState(null);
