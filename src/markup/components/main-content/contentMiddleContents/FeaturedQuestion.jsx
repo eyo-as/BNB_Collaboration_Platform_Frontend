@@ -44,7 +44,7 @@ const FeaturedQuestion = () => {
         }
       });
     }
-  }, [isLoggedIn, questions]);
+  }, [isLoggedIn, questions, usernames]);
 
   // Render username instead of user_id
   const renderUsername = (userId) => {
