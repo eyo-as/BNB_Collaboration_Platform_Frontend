@@ -220,7 +220,7 @@ const MostAnswered = () => {
                 const answers = answersCache[question.question_id] || [];
                 const latestAnswer = getLatestAnswer(question.question_id);
                 const answerCount = answers.length;
-                const userVote = userVotes[question.question_id]; // Get the user's vote state
+                const userVote = userVotes[question.question_id]; 
 
                 return (
                   <div key={question.question_id}>
