@@ -34,7 +34,7 @@ const MostAnswered = () => {
     }
   };
 
-c  useEffect(() => {
+  useEffect(() => {
     if (isLoggedIn && questions.length > 0) {
       questions.forEach((question) => {
         if (!usernames[question.user_id]) {
