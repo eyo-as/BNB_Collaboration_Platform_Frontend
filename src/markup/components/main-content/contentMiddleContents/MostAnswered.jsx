@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa6";
 import { jwtDecode } from "jwt-decode";
 import Pagination from "../../pagination/Pagination";
 import { createVoteService } from "../../../../service/vote.service";
+import { getSingleUser } from "../../../../service/user.service";
 
 const MostAnswered = () => {
   const [questions, setAllQuestions] = useState([]);
@@ -17,6 +18,35 @@ const MostAnswered = () => {
   const [userVotes, setUserVotes] = useState({}); // Track user's vote state for each question
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [decoded, setDecoded] = useState(null);
+  const [usernames, setUsernames] = useState({});
+
+  const fetchUsername = async (userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = await getSingleUser(userId, token);
+
+      setUsernames((prev) => ({
+        ...prev,
+        [userId]: user.data.data.username,
+      }));
+    } catch (error) {
+      console.log("Error fetching username: ", error);
+    }
+  };
+
+c  useEffect(() => {
+    if (isLoggedIn && questions.length > 0) {
+      questions.forEach((question) => {
+        if (!usernames[question.user_id]) {
+          fetchUsername(question.user_id);
+        }
+      });
+    }
+  }, [isLoggedIn, questions, usernames]);
+
+  const renderUsername = (userId) => {
+    return usernames[userId] || `User ${userId}`;
+  };
 
   // Check if the user is logged in and decode the token
   useEffect(() => {
@@ -232,7 +262,9 @@ const MostAnswered = () => {
 
                         <div className="flex-grow-1 ms-3">
                           <ul className="graphic-design">
-                            <li className="text-black">{decoded.username}</li>
+                            <li className="text-black">
+                              {renderUsername(question.user_id)}
+                            </li>
                             <li>
                               <span>
                                 Latest Answer:{" "}
