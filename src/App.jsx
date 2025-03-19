@@ -31,6 +31,7 @@ import GetAnswerByQuestionIdPage from "./markup/pages/answer/GetAnswerByQuestion
 import Unauthorized from "./markup/components/unauthorized/Unauthorized";
 import ProtectedRoute from "./markup/components/auth/ProtectedRoute";
 import DeleteUser from "./markup/pages/user/DeleteUser";
+import UpdateUser from "./markup/components/user/update/UpdateUser";
 
 const App = () => {
   return (
@@ -59,9 +60,11 @@ const App = () => {
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/user-profile" element={<Profile />} />
+          <Route path="/user-profile/:user_id/edit" element={<UpdateUser />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
+          {/* admin routes */}
           <Route
             path="/admin"
             element={
