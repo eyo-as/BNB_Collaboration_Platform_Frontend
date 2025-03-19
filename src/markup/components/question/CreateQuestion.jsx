@@ -3,12 +3,13 @@ import ContentLeft from "../main-content/ContentLeft";
 import ContentRight from "../main-content/ContentRight";
 import { createQuestionService } from "../../../service/question.service";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const CreateQuestion = () => {
   const [message, setMessage] = useState("");
   const [userClassId, setUserClassId] = useState(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 992);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ const CreateQuestion = () => {
       try {
         const decoded = jwtDecode(token);
         setUserClassId(decoded.class_id);
+        setIsLoggedIn(true);
       } catch (error) {
         console.log("Error decoding token:", error);
       }
@@ -98,6 +100,15 @@ const CreateQuestion = () => {
                   <div className="form-group">
                     <h3>Create a Question</h3>
                   </div>
+
+                  {!isLoggedIn && (
+                    <p className="text-danger">
+                      You need to login to post a question.{" "}
+                      <Link to={"/login"}>
+                        <span className="text-blue-300">Login Here</span>
+                      </Link>
+                    </p>
+                  )}
                   <p
                     className={
                       message.includes("success")
