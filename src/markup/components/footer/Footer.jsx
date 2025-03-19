@@ -1,7 +1,8 @@
-import logo from "../../../assets/images/logo.png";
+import logo from "../../../assets/images/logo3.png";
 import footerShape from "../../../assets/images/footer-shape.png";
 import Copyright from "../copyright/Copyright";
 import GoToPage from "../goToPage/GoToPage";
+import { Link } from "react-router";
 const Footer = () => {
   return (
     <>
@@ -10,34 +11,24 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-3 col-sm-6">
               <div className="single-footer-widget style-two">
-                <a href="index.html">
+                <li>
                   <img src={logo} alt="Image" />
-                </a>
-
-                <p>
-                  Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                  Vivamus suscipit tortor eget felis porttitor volutpat.
-                  Pellentesque in ipsum id orci porta dapibus.
-                </p>
+                </li>
               </div>
             </div>
 
             <div className="col-lg-2 col-sm-6">
               <div className="single-footer-widget style-two ml-15">
                 <h3>Company</h3>
-
                 <ul className="import-link">
                   <li>
-                    <a href="about.html">About us</a>
+                    <Link to={"/about-us"}>About us</Link>
                   </li>
                   <li>
-                    <a href="contact-us.html">Contact us</a>
+                    <Link to={"/contact-us"}>Contact us</Link>{" "}
                   </li>
                   <li>
-                    <a href="blog.html">Blog</a>
-                  </li>
-                  <li>
-                    <a href="user.html">User</a>
+                    <Link to={"/user-profile"}>Profile</Link>
                   </li>
                 </ul>
               </div>
@@ -49,16 +40,10 @@ const Footer = () => {
 
                 <ul className="import-link">
                   <li>
-                    <a href="ask-questions.html">Ask question</a>
+                    <Link to={"/ask-question"}>Ask question</Link>
                   </li>
                   <li>
-                    <a href="faq.html">FAQs</a>
-                  </li>
-                  <li>
-                    <a href="privacy-policy.html">Privacy policy</a>
-                  </li>
-                  <li>
-                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <Link to={"/questions"}>Get questions</Link>
                   </li>
                 </ul>
               </div>
@@ -67,26 +52,15 @@ const Footer = () => {
             <div className="col-lg-2 col-sm-6">
               <div className="single-footer-widget style-two">
                 <h3>Follow us</h3>
-
                 <ul className="import-link">
+                  <li>
+                    <a href="https://t.me/bnbhawasa" target="_blank">
+                      Telegram
+                    </a>
+                  </li>
                   <li>
                     <a href="https://www.facebook.com/" target="_blank">
                       Facebook
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.instagram.com/" target="_blank">
-                      Instagram
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.linkedin.com/" target="_blank">
-                      Linkedin
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.twitter.com/" target="_blank">
-                      Twitter
                     </a>
                   </li>
                 </ul>
@@ -99,24 +73,23 @@ const Footer = () => {
 
                 <ul className="address-link">
                   <li>
-                    <span>Call:</span>
-                    <a href="tel:+1-719-504-1984">+1 719-504-1984</a>
+                    <span>Call: </span>
+                    <span>046 220 6090</span>
                   </li>
                   <li>
-                    <span>Email:</span>
-                    <a href="/cdn-cgi/l/email-protection#fb8b929d82bb9c969a9297d5989496">
+                    <span>Email: </span>
+                    <span>
                       <span
                         className="__cf_email__"
                         data-cfemail="2d5d444b546d4a404c4441034e4240"
                       >
-                        [email&#160;protected]
+                        example@mail.com
                       </span>
-                    </a>
+                    </span>
                   </li>
                   <li>
-                    <span>Address:</span>
-                    7200 E Dry Creek Rd C104, Centennial, CO 80112, United
-                    States
+                    <span>Address: </span>
+                    Hawassa, Ethiopia
                   </li>
                 </ul>
               </div>
