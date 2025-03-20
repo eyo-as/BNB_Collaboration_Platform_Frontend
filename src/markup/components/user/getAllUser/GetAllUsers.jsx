@@ -5,6 +5,7 @@ import ContentRight from "../../main-content/ContentRight";
 import Pagination from "../../pagination/Pagination";
 import { FaTrash } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import SearchUser from "../../searchService/SearchUser";
 
 const GetAllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -13,7 +14,9 @@ const GetAllUsers = () => {
   const [totalPages, setTotalPages] = useState(1);
   const userPerPage = 12;
   const [usersToDisplay, setUsersToDisplay] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  // Fetch all users on component mount
   useEffect(() => {
     try {
       const token = localStorage.getItem("token");
@@ -28,6 +31,7 @@ const GetAllUsers = () => {
     }
   }, []);
 
+  // Handle window resize for responsiveness
   useEffect(() => {
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth > 992);
@@ -39,20 +43,39 @@ const GetAllUsers = () => {
     };
   }, []);
 
+  // Update displayed users when users, currentPage, or searchQuery changes
   useEffect(() => {
-    // Update displayed users when users or currentPage changes
-    updateDisplayedUsers(users);
-  }, [users, currentPage]);
+    const filteredUsers = users.filter((user) => {
+      const searchTerm = searchQuery.toLowerCase();
+      return (
+        user.first_name.toLowerCase().includes(searchTerm) ||
+        user.last_name.toLowerCase().includes(searchTerm) ||
+        user.email.toLowerCase().includes(searchTerm) ||
+        user.username.toLowerCase().includes(searchTerm)
+      );
+    });
 
-  const updateDisplayedUsers = (allUsers) => {
+    setTotalPages(Math.ceil(filteredUsers.length / userPerPage));
+    updateDisplayedUsers(filteredUsers);
+  }, [users, currentPage, searchQuery]);
+
+  // Update the displayed users based on pagination
+  const updateDisplayedUsers = (filteredUsers) => {
     const startIndex = (currentPage - 1) * userPerPage;
-    const endIndex = Math.min(startIndex + userPerPage, allUsers.length);
-    const displayedUsers = allUsers.slice(startIndex, endIndex);
+    const endIndex = Math.min(startIndex + userPerPage, filteredUsers.length);
+    const displayedUsers = filteredUsers.slice(startIndex, endIndex);
     setUsersToDisplay(displayedUsers);
   };
 
+  // Handle page change in pagination
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  // Handle search query change
+  const handleSearch = (searchTerm) => {
+    setSearchQuery(searchTerm);
+    setCurrentPage(1); // Reset to the first page when searching
   };
 
   return (
@@ -69,13 +92,11 @@ const GetAllUsers = () => {
               This page displays all registered users on the platform. You can
               view their details, or delete users if necessary.
             </p>
-            <p className="text-gray-600">
-              If you need to add a new user, you can do so from the{" "}
-              <Link to="/add-user" className="text-blue-500 hover:underline">
-                Add User
-              </Link>{" "}
-              page.
-            </p>
+          </div>
+
+          {/* Search Bar */}
+          <div className="mb-4">
+            <SearchUser onSearch={handleSearch} />
           </div>
 
           {/* Users Table */}
@@ -92,25 +113,29 @@ const GetAllUsers = () => {
                 </tr>
               </thead>
               <tbody>
-                {usersToDisplay?.map((user) => (
-                  <tr key={user.user_id} className="hover:bg-gray-50">
-                    <td className="py-2">{user.user_id}</td>
-                    <td className="py-2">{user.username}</td>
-                    <td className="py-2">{user.email}</td>
-                    <td className="py-2">{user.class_id}</td>
-                    <td className="py-2">{user.role}</td>
-                    <td className="py-2 flex justify-center gap-2">
-                      <span>
-                        <Link
-                          to={`/user/${user.user_id}/delete`}
-                          className="text-black hover:text-red-500"
-                        >
-                          <FaTrash />
-                        </Link>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {usersToDisplay?.length === 0 ? (
+                  <p>No users found</p>
+                ) : (
+                  usersToDisplay?.map((user) => (
+                    <tr key={user.user_id} className="hover:bg-gray-50">
+                      <td className="py-2">{user.user_id}</td>
+                      <td className="py-2">{user.username}</td>
+                      <td className="py-2">{user.email}</td>
+                      <td className="py-2">{user.class_id}</td>
+                      <td className="py-2">{user.role}</td>
+                      <td className="py-2 flex justify-center gap-2">
+                        <span>
+                          <Link
+                            to={`/user/${user.user_id}/delete`}
+                            className="text-black hover:text-red-500"
+                          >
+                            <FaTrash />
+                          </Link>
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
             <Pagination
