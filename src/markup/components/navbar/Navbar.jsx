@@ -88,19 +88,6 @@ const Navbar = () => {
 
                 <div className="others-options">
                   <ul>
-                    <li>
-                      <form className="search-box">
-                        <input
-                          type="text"
-                          name="Search"
-                          placeholder="Search for..."
-                          className="form-control"
-                        />
-                        <button type="submit" className="search-btn">
-                          <i className="ri-search-line"></i>
-                        </button>
-                      </form>
-                    </li>
                     <span>
                       {!isLoggedIn ? (
                         <span>
