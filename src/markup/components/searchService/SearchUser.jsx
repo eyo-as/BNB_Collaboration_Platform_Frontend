@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const SearchUser = ({ onSearch }) => {
+const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleChange = (e) => {
@@ -22,8 +22,9 @@ const SearchUser = ({ onSearch }) => {
     </div>
   );
 };
-SearchUser.propTypes = {
+
+SearchBar.propTypes = {
   onSearch: PropTypes.func.isRequired,
 };
 
-export default SearchUser;
+export default SearchBar;
