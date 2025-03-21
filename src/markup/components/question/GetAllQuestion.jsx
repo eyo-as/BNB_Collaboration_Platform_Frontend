@@ -39,7 +39,11 @@ const GetAllQuestion = () => {
   useEffect(() => {
     const filtered = questions.filter((question) => {
       const searchTerm = searchQuery.toLowerCase();
-      return question.title.toLowerCase().includes(searchTerm);
+      return (
+        question.title.toLowerCase().includes(searchTerm) ||
+        question.description.toLowerCase().includes(searchTerm) ||
+        (question.tags && question.tags.toLowerCase().includes(searchTerm))
+      );
     });
     setFilteredQuestion(filtered); // Update filtered questions
     setTotalPages(Math.ceil(filtered.length / questionsPerPage)); // Update total pages
