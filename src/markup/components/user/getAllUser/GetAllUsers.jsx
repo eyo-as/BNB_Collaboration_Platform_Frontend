@@ -5,7 +5,7 @@ import ContentRight from "../../main-content/ContentRight";
 import Pagination from "../../pagination/Pagination";
 import { FaTrash } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import SearchBar from "../../searchService/SearchUser";
+import SearchBar from "../../searchService/SearchBar";
 
 const GetAllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -96,7 +96,7 @@ const GetAllUsers = () => {
 
           {/* Search Bar */}
           <div className="mb-4">
-            <SearchBar onSearch={handleSearch} />
+            <SearchBar onSearch={handleSearch} pageType="users" />
           </div>
 
           {/* Users Table */}

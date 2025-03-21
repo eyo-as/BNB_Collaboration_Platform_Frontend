@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ContentLeft from "../main-content/ContentLeft";
 import ContentRight from "../main-content/ContentRight";
 import Pagination from "../pagination/Pagination";
+import SearchBar from "../searchService/SearchBar";
 
 const GetAllQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -14,12 +15,18 @@ const GetAllQuestion = () => {
   const [totalPages, setTotalPages] = useState(1);
   const questionsPerPage = 10;
   const [questionsToDisplay, setQuestionsToDisplay] = useState([]);
+  const [filteredQuestion, setFilteredQuestion] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Fetch all questions on component mount
   useEffect(() => {
     getAllQuestionService(token)
       .then((res) => {
         const allQuestions = res.response.data.data;
         setQuestions(allQuestions);
+        setFilteredQuestion(allQuestions); // Initialize filtered questions
+        setIsLoggedIn(true);
         setTotalPages(Math.ceil(allQuestions.length / questionsPerPage));
         updateDisplayedQuestions(allQuestions); // Update display on initial load
       })
@@ -28,6 +35,23 @@ const GetAllQuestion = () => {
       });
   }, [token]);
 
+  // Filter questions based on search query
+  useEffect(() => {
+    const filtered = questions.filter((question) => {
+      const searchTerm = searchQuery.toLowerCase();
+      return question.title.toLowerCase().includes(searchTerm);
+    });
+    setFilteredQuestion(filtered); // Update filtered questions
+    setTotalPages(Math.ceil(filtered.length / questionsPerPage)); // Update total pages
+    setCurrentPage(1); // Reset to the first page when searching
+  }, [searchQuery, questions]);
+
+  // Handle search term changes
+  const handleSearch = (searchTerm) => {
+    setSearchQuery(searchTerm);
+  };
+
+  // Handle window resize for responsiveness
   useEffect(() => {
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth > 992);
@@ -39,11 +63,12 @@ const GetAllQuestion = () => {
     };
   }, []);
 
+  // Update displayed questions when filteredQuestion or currentPage changes
   useEffect(() => {
-    // Update displayed questions when questions or currentPage changes
-    updateDisplayedQuestions(questions);
-  }, [questions, currentPage]);
+    updateDisplayedQuestions(filteredQuestion);
+  }, [filteredQuestion, currentPage]);
 
+  // Function to update displayed questions based on pagination
   const updateDisplayedQuestions = (allQuestions) => {
     const startIndex = (currentPage - 1) * questionsPerPage;
     const endIndex = Math.min(
@@ -54,6 +79,7 @@ const GetAllQuestion = () => {
     setQuestionsToDisplay(displayedQuestions);
   };
 
+  // Handle page change in pagination
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -88,42 +114,63 @@ const GetAllQuestion = () => {
                   </p>
                 </div>
 
+                {/* Search Bar */}
+                <div className="mb-4">
+                  <SearchBar onSearch={handleSearch} pageType="questions" />
+                </div>
+
                 {/* Questions Table */}
                 <div>
-                  <table className="table table-striped border table-hover table-responsive table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Q_ID</th>
-                        <th>Title</th>
-                        <th>Details</th>
-                        <th>Tags</th>
-                        <th>View</th>
-                        <th>Answer</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {questionsToDisplay?.map((question) => (
-                        <tr key={question.question_id}>
-                          <td>{question.question_id}</td>
-                          <td>{question.title}</td>
-                          <td>{question.description}</td>
-                          <td>{question.tags}</td>
-                          <td>
-                            <Link to={`/questions/${question.question_id}`}>
-                              View Question
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/questions/${question.question_id}/answers`}
-                            >
-                              Answer
-                            </Link>
-                          </td>
+                  {filteredQuestion.length === 0 ? (
+                    !isLoggedIn ? (
+                      <p className="text-danger px-2">
+                        you need to{" "}
+                        <span className="text-blue-300">
+                          <Link to={"/login"} className="text-blue-300">
+                            login
+                          </Link>
+                        </span>{" "}
+                        first
+                      </p>
+                    ) : (
+                      <p>No questions found.</p>
+                    )
+                  ) : (
+                    <table className="table table-striped border table-hover table-responsive table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Q_ID</th>
+                          <th>Title</th>
+                          <th>Details</th>
+                          <th>Tags</th>
+                          <th>View</th>
+                          <th>Answer</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {questionsToDisplay?.map((question) => (
+                          <tr key={question.question_id}>
+                            <td>{question.question_id}</td>
+                            <td>{question.title}</td>
+                            <td>{question.description}</td>
+                            <td>{question.tags}</td>
+                            <td>
+                              <Link to={`/questions/${question.question_id}`}>
+                                View Question
+                              </Link>
+                            </td>
+                            <td>
+                              <Link
+                                to={`/questions/${question.question_id}/answers`}
+                              >
+                                Answer
+                              </Link>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
