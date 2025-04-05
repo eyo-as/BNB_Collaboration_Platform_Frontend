@@ -122,7 +122,7 @@ const updateUser = async (user_id, userData, token) => {
   } catch (error) {
     return {
       success: false,
-      error,
+      error: error.response?.data,
     };
   }
 };
