@@ -1,12 +1,10 @@
 import Footer from "../footer/Footer";
 import Navbar from "../navbar/Navbar";
-import Preloader from "../preloader/Preloader";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   return (
     <>
-      {/* <Preloader /> */}
       <Navbar />
       {children}
       <Footer />
@@ -15,3 +13,7 @@ const Layout = ({ children }) => {
 };
 
 export default Layout;
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
