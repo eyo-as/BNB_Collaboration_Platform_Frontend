@@ -2,8 +2,21 @@ import RecentQuestion from "./contentMiddleContents/RecentQuestion";
 import MostAnswered from "./contentMiddleContents/MostAnswered";
 import UnansweredQuestion from "./contentMiddleContents/UnansweredQuestion";
 import FeaturedQuestion from "./contentMiddleContents/FeaturedQuestion";
+import { useAuth } from "../../../util/auth";
+import { useEffect, useState } from "react";
+import LoginPrompt from "../loginPromp/LoginPrompt";
 
 const ContentMiddle = () => {
+  const { token } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [token]);
   return (
     <>
       <div className="col-lg-6">
@@ -80,19 +93,25 @@ const ContentMiddle = () => {
             </li>
           </ul>
 
-          <div className="tab-content" id="myTabContent">
-            {/* Featured Question Tab */}
-            <FeaturedQuestion />
+          {isLoggedIn ? (
+            <div className="tab-content" id="myTabContent">
+              {/* Featured Question Tab */}
+              <FeaturedQuestion />
 
-            {/* Recent Questions Tab */}
-            <RecentQuestion />
+              {/* Recent Questions Tab */}
+              <RecentQuestion />
 
-            {/* Most Answered Tab */}
-            <MostAnswered />
+              {/* Most Answered Tab */}
+              <MostAnswered />
 
-            {/* Unanswered Question Tab */}
-            <UnansweredQuestion />
-          </div>
+              {/* Unanswered Question Tab */}
+              <UnansweredQuestion />
+            </div>
+          ) : (
+            <div className="py-12">
+              <LoginPrompt />
+            </div>
+          )}
         </div>
       </div>
     </>
