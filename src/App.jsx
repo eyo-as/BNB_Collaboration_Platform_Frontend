@@ -32,65 +32,71 @@ import Unauthorized from "./markup/components/unauthorized/Unauthorized";
 import ProtectedRoute from "./markup/components/auth/ProtectedRoute";
 import DeleteUser from "./markup/pages/user/DeleteUser";
 import UpdateUser from "./markup/components/user/update/UpdateUser";
+import { AuthProvider } from "./util/auth";
 
 const App = () => {
   return (
     <>
-      <Layout>
-        <ScrollToTop />
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/ask-question" element={<AskQuestion />} />
-          <Route path="/questions" element={<QuestionList />} />
-          <Route
-            path="/questions/:question_id"
-            element={<SingleQuestionPage />}
-          />
+      <AuthProvider>
+        <Layout>
+          <ScrollToTop />
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/ask-question" element={<AskQuestion />} />
+            <Route path="/questions" element={<QuestionList />} />
+            <Route
+              path="/questions/:question_id"
+              element={<SingleQuestionPage />}
+            />
 
-          <Route
-            path="/questions/:question_id/answer"
-            element={<CreateAnswer />}
-          />
-          <Route
-            path="/questions/:question_id/answers"
-            element={<GetAnswerByQuestionIdPage />}
-          />
-          <Route path="/register" element={<SignUp />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/user-profile" element={<Profile />} />
-          <Route path="/user-profile/:user_id/edit" element={<UpdateUser />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route
+              path="/questions/:question_id/answer"
+              element={<CreateAnswer />}
+            />
+            <Route
+              path="/questions/:question_id/answers"
+              element={<GetAnswerByQuestionIdPage />}
+            />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/user-profile" element={<Profile />} />
+            <Route
+              path="/user-profile/:user_id/edit"
+              element={<UpdateUser />}
+            />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
 
-          {/* admin routes */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute roles={["admin"]}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/users"
-            element={
-              <ProtectedRoute roles={["admin"]}>
-                <GetAllUser />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/user/:user_id/delete"
-            element={
-              <ProtectedRoute roles={["admin"]}>
-                <DeleteUser />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Layout>
+            {/* admin routes */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute roles={["admin"]}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute roles={["admin"]}>
+                  <GetAllUser />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user/:user_id/delete"
+              element={
+                <ProtectedRoute roles={["admin"]}>
+                  <DeleteUser />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Layout>
+      </AuthProvider>
     </>
   );
 };

@@ -30,6 +30,7 @@ const login = async (userData) => {
     return {
       success: true,
       data: successMessage,
+      token,
     };
   } catch (error) {
     const errorMessage = error.response.data.error;

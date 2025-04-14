@@ -1,43 +1,34 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import getAuth from "../../../util/auth";
-import { Navigate } from "react-router";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../../../util/auth"; 
 
-const ProtectedRoute = ({ roles, children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(false);
+const ProtectedRoute = ({ roles = [], children }) => {
+  const { token, user } = useAuth(); 
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
-    const loggedInUser = getAuth();
+  
+    setIsChecked(true);
+  }, [token, user]);
 
-    loggedInUser.then((res) => {
-      if (res.role) {
-        setIsLoggedIn(true);
+  if (!isChecked) {
+    return null; 
+  }
 
-        // Check if the user's role is included in the allowed roles
-        if (roles && roles.includes(res.role)) {
-          setIsAuthorized(true);
-        }
-      }
-      setIsChecked(true);
-    });
-  }, [roles]);
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
 
-  if (isChecked) {
-    if (!isLoggedIn) {
-      return <Navigate to="/login" />;
-    }
-    if (!isAuthorized) {
-      return <Navigate to="/unauthorized" />;
-    }
+  if (roles.length > 0 && !roles.includes(user?.role)) {
+    return <Navigate to="/unauthorized" />;
   }
 
   return children;
 };
 
 ProtectedRoute.propTypes = {
-  roles: PropTypes.array,
+  roles: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.node.isRequired,
 };
 

@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../../../util/auth";
 
 const ContentLeft = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem("token"));
   const navigate = useNavigate();
+  const { token, setToken } = useAuth();
 
   useEffect(() => {
     if (token) {
