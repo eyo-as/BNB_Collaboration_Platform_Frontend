@@ -52,7 +52,7 @@ const ContentRight = () => {
 
   // Fetch user length and latest joined user
   useEffect(() => {
-    if (!token) return; // Skip if no token
+    if (!token) return;
 
     getAllUsers(token)
       .then((res) => {
@@ -60,7 +60,7 @@ const ContentRight = () => {
           const userLength = res.data.length;
           setUserLength(userLength);
 
-          const latestUser = res.data.at(-1);
+          const latestUser = res.data.at(0);
           setLatestUser(latestUser);
         }
       })
@@ -71,7 +71,7 @@ const ContentRight = () => {
 
   // Fetch question length and latest question
   useEffect(() => {
-    if (!token) return; // Skip if no token
+    if (!token) return;
 
     getAllQuestionService(token)
       .then((res) => {
@@ -84,7 +84,7 @@ const ContentRight = () => {
           const questionLength = res.response.data.data.length;
           setQuestionLength(questionLength);
 
-          const latestQuestion = res.response.data.data.at(-1);
+          const latestQuestion = res.response.data.data.at(0);
           setLatestQuestion(latestQuestion);
         }
       })
@@ -95,7 +95,7 @@ const ContentRight = () => {
 
   // Fetch answer length and latest answer
   useEffect(() => {
-    if (!token) return; // Skip if no token
+    if (!token) return;
 
     getAllAnswersService(token)
       .then((res) => {
