@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import bannerImg from "../../assets/images/banner-img.png";
 import chooseImg from "../../assets/images/choose-img.png";
-import team1 from "../../assets/images/team/team-1.jpg";
-import team2 from "../../assets/images/team/team-2.jpg";
-import team3 from "../../assets/images/team/team-3.jpg";
-import team4 from "../../assets/images/team/team-4.jpg";
+// import team1 from "../../assets/images/team/team-1.jpg";
+// import team2 from "../../assets/images/team/team-2.jpg";
+// import team3 from "../../assets/images/team/team-3.jpg";
+// import team4 from "../../assets/images/team/team-4.jpg";
 import ContentLeft from "../components/main-content/ContentLeft";
 
 const AboutUs = () => {
@@ -32,23 +32,15 @@ const AboutUs = () => {
               <div className="about-banner-content">
                 <span className="top-title">Who we are</span>
                 <h2>
-                  Our job is to empower the world through the development of
-                  technology through combined knowledge.
+                  At BNB School, we believe in fostering an environment where
+                  students can truly excel.
                 </h2>
-                <p>
-                  Quisque velit nisi, pretium ut lacinia in, elementum id enim.
-                  Curabitur aliquet quam id dui posuere blandit. Vivamus magna
-                  justo, lacinia eget consectetur sed, convallis at tellus.
-                  Donec sollicitudin molestie malesuada pretium ut lacinia in,
-                  elementum id enim. Curabitur aliquet quam id dui posuere
-                  blandit. Vivamus magna.
-                </p>
-                <p>
-                  Nulla porttitor accumsan tincidunt. Curabitur arcu erat,
-                  accumsan id imperdiet et, porttitor at sem. Vivamus suscipit
-                  tortor eget felis porttitor volutpat. Curabitur arcu erat,
-                  accumsan id imperdiet et, porttitor at sem.
-                </p>
+                <h3>
+                  {" "}
+                  As one of Hawassa&apos;s leading high schools, our core
+                  mission is to cultivate students with impressive knowledge,
+                  strong discipline, and unwavering consistency.
+                </h3>
               </div>
             </div>
 
@@ -62,27 +54,27 @@ const AboutUs = () => {
       </div>
 
       <div className="monthly-user-area">
-        <div className="container">
+        <div className="container mx-auto">
           <div className="monthly-user-bg pt-100 pb-70">
             <div className="row justify-content-center">
               <div className="col-lg-4 col-md-6">
                 <div className="single-monthly-item">
-                  <h3>10+ million</h3>
-                  <span>Monthly visitors to our network</span>
+                  <h3>10000+ </h3>
+                  <span>Total Studensts</span>
                 </div>
               </div>
 
               <div className="col-lg-4 col-md-6">
                 <div className="single-monthly-item">
-                  <h3>2 Million</h3>
-                  <span>Questions asked to-date</span>
+                  <h3>800+</h3>
+                  <span>Active Students</span>
                 </div>
               </div>
 
               <div className="col-lg-4 col-md-6">
                 <div className="single-monthly-item">
-                  <h3>1000+</h3>
-                  <span>Customer companies for all products</span>
+                  <h3>50+</h3>
+                  <span>Active Teachers</span>
                 </div>
               </div>
             </div>
@@ -101,36 +93,52 @@ const AboutUs = () => {
 
             <div className="col-lg-6">
               <div className="why-choose-content">
-                <span className="top-title">Why choosing Pify</span>
-                <h2>
-                  The main reason why you choose it is that we share our
-                  knowledge at the doorsteps of the world
-                </h2>
+                <span className="top-title">Why Choose BNB School?</span>
+                <h4>
+                  Choosing the right high school is a pivotal decision, and at
+                  BNB School
+                </h4>
                 <p>
-                  Quisque velit nisi, pretium ut lacinia in, elementum id enim.
-                  Curabitur aliquet quam id dui posuere blandit. Vivamus magna
-                  justo, lacinia eget consectetur sed, convallis at tellus.
-                  Donec sollicitudin molestie malesuada.
+                  we believe we offer an unparalleled educational experience
+                  right here in Hawassa, Ethiopia. Recognized as one of the
+                  city&apos;s best schools, our commitment goes beyond
+                  textbooks; it&apos;s about shaping future leaders and engaged
+                  citizens.
+                </p>
+                <p>
+                  Choosing BNB School means choosing a path to impressive
+                  knowledge, disciplined growth, and consistent achievement. We
+                  invite you to experience the difference for yourself.
                 </p>
 
                 <ul>
                   <li>
-                    <h3>First priority customer mindset</h3>
+                    <h4>Our Approach at BNB School</h4>
                     <p>
-                      Nulla porttitor accumsan tincidunt. Curabitur arcu erat,
-                      accumsan id imperdiet et, porttitor at sem. Vivamus
-                      suscipit tortor eget felis porttitor volutpat. Curabitur
-                      arcu erat, accumsan id imperdiet et, porttitor at sem.
-                      Proin eget tortor risus.
+                      At BNB School, we&apos;re committed to building students
+                      with impressive knowledge, strong discipline, and
+                      unwavering consistency. As one of Hawassa&apos;s top high
+                      schools, our approach is straightforward: we empower
+                      students to excel.
                     </p>
+
+                    <h6>
+                      Our core values of a student-centric focus, transparency,
+                      and collaborative growth guide every decision, ensuring
+                      your success is always our priority.
+                    </h6>
                   </li>
                   <li>
-                    <h3>Be transparent</h3>
+                    <h3>Our Student Collaboration Platform</h3>
                     <p>
-                      Proin eget tortor risus. Quisque velit nisi, pretium ut
-                      lacinia in, elementum id enim. Curabitur arcu erat,
-                      accumsan id imperdiet et, porttitor at sem. Vivamus magna
-                      justo, lacinia eget consectetur sed, convallis at tellus.
+                      To further amplify the BNB learning experience, we&apos;re
+                      proud to offer our dedicated student collaboration
+                      platform. Designed by a BNB student for BNB students, this
+                      powerful online tool connects and empowers communication
+                      and collaboration across all grades. It&apos;s more than
+                      just a tool; it&apos;s a testament to our commitment to
+                      innovation and student empowerment, ensuring every student
+                      has the resources they need to thrive.
                     </p>
                   </li>
                 </ul>
@@ -141,7 +149,7 @@ const AboutUs = () => {
       </div>
 
       <div className="team-area pt-100 pb-70">
-        <div className="container">
+        {/* <div className="container">
           <div className="section-title">
             <h2>Our leadership team</h2>
           </div>
@@ -150,116 +158,40 @@ const AboutUs = () => {
             <div className="col-xl-3 col-md-6">
               <div className="single-team-item">
                 <img src={team1} alt="Image" />
-                <h3>Guillermo Brand</h3>
+                <h3>Samuel Bekalo</h3>
                 <span>CEO</span>
-                <ul className="d-flex justify-content-between align-items-center">
-                  <li>
-                    <a href="https://www.facebook.com/" target="_blank">
-                      <i className="ri-facebook-fill"></i>
-                    </a>
-                    <a href="https://www.twitter.com/" target="_blank">
-                      <i className="ri-twitter-line"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/" target="_blank">
-                      <i className="ri-linkedin-fill"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank">
-                      <i className="ri-instagram-line"></i>
-                    </a>
-                  </li>
-
-                  <li>
-                    <button className="default-btn">Follow</button>
-                  </li>
-                </ul>
+                
               </div>
             </div>
 
             <div className="col-xl-3 col-md-6">
               <div className="single-team-item">
                 <img src={team2} alt="Image" />
-                <h3>Phyllis Cassidy</h3>
+                <h3>Taye Asfaw</h3>
                 <span>Writer</span>
-                <ul className="d-flex justify-content-between align-items-center">
-                  <li>
-                    <a href="https://www.facebook.com/" target="_blank">
-                      <i className="ri-facebook-fill"></i>
-                    </a>
-                    <a href="https://www.twitter.com/" target="_blank">
-                      <i className="ri-twitter-line"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/" target="_blank">
-                      <i className="ri-linkedin-fill"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank">
-                      <i className="ri-instagram-line"></i>
-                    </a>
-                  </li>
-
-                  <li>
-                    <button className="default-btn">Follow</button>
-                  </li>
-                </ul>
+               
               </div>
             </div>
 
             <div className="col-xl-3 col-md-6">
               <div className="single-team-item">
                 <img src={team3} alt="Image" />
-                <h3>Ian Martin</h3>
+                <h3>Miraf Wongmagegn</h3>
                 <span>Manager</span>
-                <ul className="d-flex justify-content-between align-items-center">
-                  <li>
-                    <a href="https://www.facebook.com/" target="_blank">
-                      <i className="ri-facebook-fill"></i>
-                    </a>
-                    <a href="https://www.twitter.com/" target="_blank">
-                      <i className="ri-twitter-line"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/" target="_blank">
-                      <i className="ri-linkedin-fill"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank">
-                      <i className="ri-instagram-line"></i>
-                    </a>
-                  </li>
-
-                  <li>
-                    <button className="default-btn">Follow</button>
-                  </li>
-                </ul>
+                
               </div>
             </div>
 
             <div className="col-xl-3 col-md-6">
               <div className="single-team-item">
                 <img src={team4} alt="Image" />
-                <h3>Regina Mccloy</h3>
+                <h3>Bizuhan </h3>
                 <span>Writer</span>
-                <ul className="d-flex justify-content-between align-items-center">
-                  <li>
-                    <a href="https://www.facebook.com/" target="_blank">
-                      <i className="ri-facebook-fill"></i>
-                    </a>
-                    <a href="https://www.twitter.com/" target="_blank">
-                      <i className="ri-twitter-line"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/" target="_blank">
-                      <i className="ri-linkedin-fill"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank">
-                      <i className="ri-instagram-line"></i>
-                    </a>
-                  </li>
-
-                  <li>
-                    <button className="default-btn">Follow</button>
-                  </li>
-                </ul>
+                
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
