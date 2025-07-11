@@ -42,7 +42,7 @@ const CreateAnswerComp = () => {
         setMessage(response.message.response.data.message);
       }
     } catch (error) {
-      setMessage("An error occurred while posting the question");
+      setMessage("An error occurred while posting the question!");
       console.error(error);
     }
   };
