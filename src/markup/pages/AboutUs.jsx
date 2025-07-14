@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import bannerImg from "../../assets/images/banner-img.png";
 import chooseImg from "../../assets/images/choose-img.png";
-// import team1 from "../../assets/images/team/team-1.jpg";
-// import team2 from "../../assets/images/team/team-2.jpg";
-// import team3 from "../../assets/images/team/team-3.jpg";
-// import team4 from "../../assets/images/team/team-4.jpg";
 import ContentLeft from "../components/main-content/ContentLeft";
 
 const AboutUs = () => {
