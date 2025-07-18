@@ -34,8 +34,7 @@ const login = async (userData) => {
     };
   } catch (error) {
     const errorMessage =
-      error?.response?.data?.error || error.message || "Login failed";
-
+      error?.response?.data?.error || "Network or server error";
     return {
       success: false,
       message: errorMessage,
