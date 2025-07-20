@@ -23,7 +23,7 @@ const GetAllQuestion = () => {
   useEffect(() => {
     getAllQuestionService(token)
       .then((res) => {
-        const allQuestions = res.response.data.data;
+        const allQuestions = res?.response?.data?.data;
         setQuestions(allQuestions);
         setFilteredQuestion(allQuestions); // Initialize filtered questions
         setIsLoggedIn(true);
