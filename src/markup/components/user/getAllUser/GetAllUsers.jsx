@@ -29,7 +29,7 @@ const GetAllUsers = () => {
     } catch (error) {
       console.log("Error fetching all users: ", error);
     }
-  }, []);
+  }, [updateDisplayedUsers]);
 
   // Handle window resize for responsiveness
   useEffect(() => {

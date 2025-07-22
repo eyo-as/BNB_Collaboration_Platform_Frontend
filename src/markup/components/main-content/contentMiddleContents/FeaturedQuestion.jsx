@@ -51,12 +51,12 @@ const FeaturedQuestion = () => {
     return usernames[userId] || `User ${userId}`; // Fallback to "User {id}" if username is not fetched yet
   };
 
-  // function to remove token from local storage
-  const removeToken = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    setDecoded(null);
-  };
+  // // function to remove token from local storage
+  // const removeToken = () => {
+  //   localStorage.removeItem("token");
+  //   setIsLoggedIn(false);
+  //   setDecoded(null);
+  // };
 
   // Check if the user is logged in and decode the token
   useEffect(() => {
@@ -70,7 +70,7 @@ const FeaturedQuestion = () => {
       } catch (error) {
         console.error("Invalid or expired token:", error);
         setIsLoggedIn(false);
-        removeToken();
+        // removeToken();
       }
     } else {
       setIsLoggedIn(false);
@@ -97,7 +97,7 @@ const FeaturedQuestion = () => {
         })
         .catch((error) => {
           console.log("Error fetching questions:", error);
-          removeToken();
+          // removeToken();
         });
     }
   }, [isLoggedIn]);
@@ -105,9 +105,9 @@ const FeaturedQuestion = () => {
   // Update displayed questions when pagination or answersCache changes
   useEffect(() => {
     // Calculate a score for each question based on upvotes and answers
-    const scoredQuestions = questions.map((question) => {
+    const scoredQuestions = questions?.map((question) => {
       const answers = answersCache[question.question_id] || [];
-      const answerCount = answers.length;
+      const answerCount = answers?.length;
       const upvotes = question.upvotes || 0;
 
       // Calculate a combined score
@@ -138,10 +138,10 @@ const FeaturedQuestion = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await getAnswersByQuestionIdService(questionId, token);
-      if (res.success) {
+      if (res?.success) {
         setAnswersCache((prev) => ({
           ...prev,
-          [questionId]: res.data.data,
+          [questionId]: res?.data?.data,
         }));
       }
     } catch (error) {
@@ -149,7 +149,7 @@ const FeaturedQuestion = () => {
         `Error fetching answers for question ${questionId}:`,
         error
       );
-      removeToken();
+      // removeToken();
     }
   };
 
@@ -184,9 +184,9 @@ const FeaturedQuestion = () => {
         token
       );
 
-      if (response.success) {
+      if (response?.success) {
         // Update the question's vote count in the UI
-        const updatedQuestions = questions.map((question) => {
+        const updatedQuestions = questions?.map((question) => {
           if (question.question_id === questionId) {
             let upvotes = question.upvotes;
             let downvotes = question.downvotes;
@@ -222,7 +222,7 @@ const FeaturedQuestion = () => {
       }
     } catch (error) {
       console.error("Error voting:", error);
-      removeToken();
+      // removeToken();
     }
   };
 
