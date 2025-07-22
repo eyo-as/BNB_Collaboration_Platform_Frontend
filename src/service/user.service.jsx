@@ -22,16 +22,26 @@ const login = async (userData) => {
       },
     });
 
-    const token = response?.data?.token;
-    localStorage.setItem("token", token);
+    if (response) {
+      try {
+        const token = response?.data?.token;
+        localStorage.setItem("token", token);
 
-    if (token) {
-      const successMessage = response?.data?.message;
+        if (token) {
+          const successMessage = response?.data?.message;
 
-      return {
-        success: true,
-        data: successMessage,
-        token,
+          return {
+            success: true,
+            data: successMessage,
+            token,
+          };
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      throw {
+        message: "error ",
       };
     }
   } catch (error) {
