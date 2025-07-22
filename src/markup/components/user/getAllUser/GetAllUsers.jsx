@@ -19,10 +19,9 @@ const GetAllUsers = () => {
   // Fetch all users on component mount
   useEffect(() => {
     try {
-      const token = localStorage?.getItem("token");
-      getAllUsers(token)?.then((res) => {
-        const allUsers = res?.data;
-        console.log(allUsers);
+      const token = localStorage.getItem("token");
+      getAllUsers(token).then((res) => {
+        const allUsers = res.data;
         setUsers(allUsers);
         setTotalPages(Math.ceil(allUsers.length / userPerPage));
         updateDisplayedUsers(allUsers); // Update display on initial load
@@ -30,7 +29,7 @@ const GetAllUsers = () => {
     } catch (error) {
       console.log("Error fetching all users: ", error);
     }
-  }, [updateDisplayedUsers]);
+  }, []);
 
   // Handle window resize for responsiveness
   useEffect(() => {
@@ -46,7 +45,7 @@ const GetAllUsers = () => {
 
   // Update displayed users when users, currentPage, or searchQuery changes
   useEffect(() => {
-    const filteredUsers = users?.filter((user) => {
+    const filteredUsers = users.filter((user) => {
       const searchTerm = searchQuery.toLowerCase();
       return (
         user.first_name.toLowerCase().includes(searchTerm) ||
@@ -58,7 +57,7 @@ const GetAllUsers = () => {
 
     setTotalPages(Math.ceil(filteredUsers.length / userPerPage));
     updateDisplayedUsers(filteredUsers);
-  }, [ currentPage, searchQuery]);
+  }, [users, currentPage, searchQuery]);
 
   // Update the displayed users based on pagination
   const updateDisplayedUsers = (filteredUsers) => {
