@@ -22,19 +22,20 @@ const login = async (userData) => {
       },
     });
 
-    const token = response.data.token;
+    const token = response?.data?.token;
     localStorage.setItem("token", token);
 
-    const successMessage = response.data.message;
+    if (token) {
+      const successMessage = response?.data?.message;
 
-    return {
-      success: true,
-      data: successMessage,
-      token,
-    };
+      return {
+        success: true,
+        data: successMessage,
+        token,
+      };
+    }
   } catch (error) {
-    const errorMessage =
-      error?.response?.data?.error || "Network or server error";
+    const errorMessage = "Network or server error";
     return {
       success: false,
       message: errorMessage,
