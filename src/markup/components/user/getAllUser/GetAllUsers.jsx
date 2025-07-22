@@ -58,7 +58,7 @@ const GetAllUsers = () => {
 
     setTotalPages(Math.ceil(filteredUsers.length / userPerPage));
     updateDisplayedUsers(filteredUsers);
-  }, [users, currentPage, searchQuery]);
+  }, [ currentPage, searchQuery]);
 
   // Update the displayed users based on pagination
   const updateDisplayedUsers = (filteredUsers) => {
