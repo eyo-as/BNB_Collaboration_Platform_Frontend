@@ -16,7 +16,7 @@ const createAnswerService = async (answerData, token) => {
 
     return {
       success: true,
-      data: response?.data,
+      data: response.data,
     };
   } catch (error) {
     return {
@@ -37,7 +37,7 @@ const getAllAnswersService = async (token) => {
 
     return {
       success: true,
-      data: response?.data,
+      data: response.data,
     };
   } catch (error) {
     return {
@@ -58,7 +58,7 @@ const getSingleAnswerService = async (answer_id, token) => {
 
     return {
       success: true,
-      data: response?.data,
+      data: response.data,
     };
   } catch (error) {
     return {
@@ -82,7 +82,7 @@ const getAnswersByQuestionIdService = async (question_id, token) => {
 
     return {
       success: true,
-      data: response?.data,
+      data: response.data,
     };
   } catch (error) {
     return {

@@ -18,7 +18,7 @@ const createQuestionService = async (questionData, token) => {
     console.log(error);
     return {
       success: false,
-      message: "An error occurred",
+      message: error.response?.data?.error || "An error occurred",
     };
   }
 };

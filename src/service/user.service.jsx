@@ -8,7 +8,7 @@ const createUser = async (userData) => {
         "Content-Type": "application/json",
       },
     });
-    return response?.data;
+    return response.data;
   } catch (error) {
     throw error.response.data;
   }
@@ -22,10 +22,10 @@ const login = async (userData) => {
       },
     });
 
-    const token = response?.data?.token;
+    const token = response.data.token;
     localStorage.setItem("token", token);
 
-    const successMessage = response?.data?.message;
+    const successMessage = response.data.message;
 
     return {
       success: true,
@@ -33,8 +33,7 @@ const login = async (userData) => {
       token,
     };
   } catch (error) {
-    const errorMessage =
-      error?.response?.data?.error || "Network or server error";
+    const errorMessage = error.response.data.error;
     return {
       success: false,
       message: errorMessage,
@@ -56,7 +55,7 @@ const getAllUsers = async () => {
       },
     });
 
-    return response?.data; // Return the data part of the response
+    return response.data; // Return the data part of the response
   } catch (error) {
     console.error("Error in getAllUsers service:", error);
     throw error; // Re-throw the error for component handling
@@ -74,7 +73,7 @@ const getSingleUser = async (user_id, token) => {
 
     return {
       success: true,
-      data: response?.data,
+      data: response.data,
     };
   } catch (error) {
     return {
@@ -94,7 +93,7 @@ const deleteUser = async (user_id, token) => {
 
     return {
       success: true,
-      data: response?.data,
+      data: response.data,
     };
   } catch (error) {
     return {
@@ -124,7 +123,7 @@ const updateUser = async (user_id, userData, token) => {
   } catch (error) {
     return {
       success: false,
-      error: error?.response?.data,
+      error: error.response?.data,
     };
   }
 };
