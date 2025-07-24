@@ -80,7 +80,7 @@ Peer-Hub/
 ## 👨‍💻 Developed By
 
 **Eyosiyas Tumiso**  
-A passionate full-stack developer from Ethiopia.
+🚀 MERN Full Stack Developer
 
 - 🔗 [LinkedIn](https://www.linkedin.com/in/eyosiyas-tumiso/)
 - 🌐 [Portfolio](https://eyoas-dev.vercel.app)
