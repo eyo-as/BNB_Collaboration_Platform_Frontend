@@ -23,7 +23,7 @@ const GetAllQuestion = () => {
   useEffect(() => {
     getAllQuestionService(token)
       .then((res) => {
-        const allQuestions = res.response.data.data;
+        const allQuestions = res?.response?.data?.data;
         setQuestions(allQuestions);
         setFilteredQuestion(allQuestions); // Initialize filtered questions
         setIsLoggedIn(true);
@@ -37,7 +37,7 @@ const GetAllQuestion = () => {
 
   // Filter questions based on search query
   useEffect(() => {
-    const filtered = questions.filter((question) => {
+    const filtered = questions?.filter((question) => {
       const searchTerm = searchQuery.toLowerCase();
       return (
         question.title.toLowerCase().includes(searchTerm) ||
@@ -125,7 +125,7 @@ const GetAllQuestion = () => {
 
                 {/* Questions Table */}
                 <div>
-                  {filteredQuestion.length === 0 ? (
+                  {filteredQuestion?.length === 0 ? (
                     !isLoggedIn ? (
                       <p className="text-danger px-2">
                         you need to{" "}

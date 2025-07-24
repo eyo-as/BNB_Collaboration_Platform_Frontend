@@ -23,10 +23,11 @@ const GetAnswerByQuestionId = () => {
     const fetchAnswers = async () => {
       try {
         const res = await getAnswersByQuestionIdService(question_id, token);
-        setAnswers(res.data.data);
+        const allAnswers = res?.data?.data;
+        setAnswers(allAnswers);
 
         // Fetch users for all answers
-        res.data.data.forEach((answer) => {
+        allAnswers?.forEach((answer) => {
           if (!users[answer.user_id]) {
             fetchUser(answer.user_id);
           }
@@ -42,7 +43,8 @@ const GetAnswerByQuestionId = () => {
   const fetchQuestion = async () => {
     try {
       const response = await getSingleQuestionService(question_id, token);
-      setQuestions(response.response.data.data);
+      const questions = response?.response?.data?.data;
+      setQuestions(questions);
     } catch (error) {
       return {
         success: false,
@@ -84,9 +86,9 @@ const GetAnswerByQuestionId = () => {
         token
       );
 
-      if (response.success) {
+      if (response?.success) {
         // Update the answer's vote count in the UI
-        const updatedAnswers = answers.map((answer) => {
+        const updatedAnswers = answers?.map((answer) => {
           if (answer.answer_id === answerId) {
             let upvotes = answer.upvotes;
             let downvotes = answer.downvotes;
@@ -135,24 +137,24 @@ const GetAnswerByQuestionId = () => {
             <div className="mb-6 p-4 bg-white shadow rounded">
               <div className="text-xl font-bold text-black mb-2">
                 Question title:{" "}
-                <span className="text-gray-800">{questions.title}</span>
+                <span className="text-gray-800">{questions?.title}</span>
               </div>
               <div className="text-black mb-2">
                 Description:{" "}
-                <span className="text-gray-900">{questions.description}</span>
+                <span className="text-gray-900">{questions?.description}</span>
               </div>
               <div className="text-sm text-black mb-2">
-                Tags: <span className="text-gray-600">{questions.tags}</span>
+                Tags: <span className="text-gray-600">{questions?.tags}</span>
               </div>
               <div className="text-sm text-black mb-2">
                 Created at:{" "}
                 <span className="text-gray-600">
-                  {new Date(questions.created_at).toLocaleDateString()}
+                  {new Date(questions?.created_at).toLocaleDateString()}
                 </span>
               </div>
               <div className="text-sm text-black">
                 Class ID:{" "}
-                <span className="text-gray-600">{questions.class_id}</span>
+                <span className="text-gray-600">{questions?.class_id}</span>
               </div>
             </div>
 

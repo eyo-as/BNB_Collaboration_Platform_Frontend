@@ -21,7 +21,7 @@ const GetAllUsers = () => {
     try {
       const token = localStorage.getItem("token");
       getAllUsers(token).then((res) => {
-        const allUsers = res.data;
+        const allUsers = res?.data;
         setUsers(allUsers);
         setTotalPages(Math.ceil(allUsers.length / userPerPage));
         updateDisplayedUsers(allUsers); // Update display on initial load
@@ -45,7 +45,7 @@ const GetAllUsers = () => {
 
   // Update displayed users when users, currentPage, or searchQuery changes
   useEffect(() => {
-    const filteredUsers = users.filter((user) => {
+    const filteredUsers = users?.filter((user) => {
       const searchTerm = searchQuery.toLowerCase();
       return (
         user.first_name.toLowerCase().includes(searchTerm) ||

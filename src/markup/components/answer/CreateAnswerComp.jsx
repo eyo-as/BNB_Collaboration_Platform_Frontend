@@ -21,7 +21,7 @@ const CreateAnswerComp = () => {
       return;
     }
     const decoded = jwtDecode(token);
-    const user_id = decoded.user_id;
+    const user_id = decoded?.user_id;
 
     const answerData = {
       answer_text: answerDom.current.value,
@@ -32,14 +32,14 @@ const CreateAnswerComp = () => {
     try {
       const response = await createAnswerService(answerData, token);
 
-      if (response.success) {
-        setMessage(response.data.message + " redirect...");
+      if (response?.success) {
+        setMessage(response?.data?.message + " redirect...");
         answerDom.current.value = "";
         setTimeout(() => {
           navigate("/questions");
         }, 2000);
       } else {
-        setMessage(response.message.response.data.message);
+        setMessage(response?.message?.response?.data?.message);
       }
     } catch (error) {
       setMessage("An error occurred while posting the question!");
@@ -59,7 +59,7 @@ const CreateAnswerComp = () => {
               </div>
               <p
                 className={
-                  message.includes("success") ? "text-success" : "text-danger"
+                  message?.includes("success") ? "text-success" : "text-danger"
                 }
               >
                 {message}

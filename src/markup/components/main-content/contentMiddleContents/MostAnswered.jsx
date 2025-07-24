@@ -27,7 +27,7 @@ const MostAnswered = () => {
 
       setUsernames((prev) => ({
         ...prev,
-        [userId]: user.data.data.username,
+        [userId]: user?.data?.data?.username,
       }));
     } catch (error) {
       console.log("Error fetching username: ", error);
@@ -74,7 +74,7 @@ const MostAnswered = () => {
 
       getAllQuestionService(token)
         .then((res) => {
-          const allQuestions = res.response.data.data?.map((question) => ({
+          const allQuestions = res?.response?.data?.data?.map((question) => ({
             ...question,
             tags: question.tags || "", // Ensure tags is at least an empty string
           }));
@@ -220,7 +220,7 @@ const MostAnswered = () => {
                 const answers = answersCache[question.question_id] || [];
                 const latestAnswer = getLatestAnswer(question.question_id);
                 const answerCount = answers.length;
-                const userVote = userVotes[question.question_id]; 
+                const userVote = userVotes[question.question_id];
 
                 return (
                   <div key={question.question_id}>

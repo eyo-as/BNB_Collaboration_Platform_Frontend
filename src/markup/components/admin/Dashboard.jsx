@@ -48,9 +48,10 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       const decoded = jwtDecode(token);
-      const user_id = decoded.user_id;
+      const user_id = decoded?.user_id;
       getSingleUser(user_id, token).then((res) => {
-        setUser(res.data.data);
+        const user = res?.data?.data;
+        setUser(user);
       });
     } catch (error) {
       console.log("Error fetching user", error);
@@ -61,10 +62,10 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       getAllUsers(token).then((res) => {
-        const userLength = res.data.length;
+        const userLength = res?.data?.length;
         setUserLength(userLength);
 
-        const latestUser = res.data.at(-1);
+        const latestUser = res?.data.at(-1);
         setLatestUser(latestUser);
       });
     } catch (error) {
@@ -76,10 +77,10 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       getAllQuestionService(token).then((res) => {
-        const questionLength = res.response.data.data.length;
+        const questionLength = res?.response?.data?.data?.length;
         setQuestionLength(questionLength);
 
-        const latestQuestion = res.response.data.data.at(-1);
+        const latestQuestion = res?.response?.data?.data.at(-1);
         setLatestQuestion(latestQuestion);
       });
     } catch (error) {
@@ -91,10 +92,10 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       getAllAnswersService(token).then((res) => {
-        const answerLength = res.data.data.length;
+        const answerLength = res?.data?.data?.length;
         setAnswerLength(answerLength);
 
-        const latestAnswer = res.data.data.at(-1);
+        const latestAnswer = res?.data?.data?.at(-1);
         setLatestAnswer(latestAnswer);
       });
     } catch (error) {
@@ -113,7 +114,8 @@ const Dashboard = () => {
               Admin Dashboard
             </h1>
             <p className="text-gray-600">
-              Welcome back, <span className="text-black">{user.username}!</span>
+              Welcome back,{" "}
+              <span className="text-black">{user?.username}!</span>
             </p>
           </div>
 

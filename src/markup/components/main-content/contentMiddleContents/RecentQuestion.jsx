@@ -27,7 +27,7 @@ const RecentQuestion = () => {
       const user = await getSingleUser(userId, token);
       setUsernames((prev) => ({
         ...prev,
-        [userId]: user.data.data.username,
+        [userId]: user?.data?.data?.username,
       }));
     } catch (error) {
       console.error("Error fetching username:", error);
@@ -36,7 +36,7 @@ const RecentQuestion = () => {
 
   // Fetch usernames for all questions
   useEffect(() => {
-    if (isLoggedIn && questions.length > 0) {
+    if (isLoggedIn && questions?.length > 0) {
       questions.forEach((question) => {
         if (!usernames[question.user_id]) {
           fetchUsername(question.user_id);
@@ -75,7 +75,7 @@ const RecentQuestion = () => {
       const token = localStorage.getItem("token");
       getAllQuestionService(token)
         .then((res) => {
-          const allQuestions = res.response.data.data?.map((question) => ({
+          const allQuestions = res?.response?.data?.data?.map((question) => ({
             ...question,
             tags: question.tags || "", // Ensure tags is at least an empty string
           }));

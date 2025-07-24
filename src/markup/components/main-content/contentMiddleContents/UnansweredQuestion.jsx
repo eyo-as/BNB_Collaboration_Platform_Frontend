@@ -27,7 +27,7 @@ const UnansweredQuestion = () => {
       const user = await getSingleUser(userId, token);
       setUsernames((prev) => ({
         ...prev,
-        [userId]: user.data.data.username,
+        [userId]: user?.data?.data?.username,
       }));
     } catch (error) {
       console.error("Error fetching username:", error);
@@ -36,7 +36,7 @@ const UnansweredQuestion = () => {
 
   // Fetch usernames for all questions
   useEffect(() => {
-    if (isLoggedIn && questions.length > 0) {
+    if (isLoggedIn && questions?.length > 0) {
       questions.forEach((question) => {
         if (!usernames[question.user_id]) {
           fetchUsername(question.user_id);
@@ -76,7 +76,7 @@ const UnansweredQuestion = () => {
 
       getAllQuestionService(token)
         .then((res) => {
-          const allQuestions = res.response.data.data?.map((question) => ({
+          const allQuestions = res?.response?.data?.data?.map((question) => ({
             ...question,
             tags: question.tags || "", // Ensure tags is at least an empty string
           }));
@@ -97,7 +97,7 @@ const UnansweredQuestion = () => {
   // Update displayed questions when pagination or answersCache changes
   useEffect(() => {
     // Filter questions with no answers
-    const unansweredQuestions = questions.filter((question) => {
+    const unansweredQuestions = questions?.filter((question) => {
       const answers = answersCache[question.question_id] || [];
       return answers.length === 0; // Only include questions with no answers
     });
@@ -121,10 +121,10 @@ const UnansweredQuestion = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await getAnswersByQuestionIdService(questionId, token);
-      if (res.success) {
+      if (res?.success) {
         setAnswersCache((prev) => ({
           ...prev,
-          [questionId]: res.data.data,
+          [questionId]: res?.data?.data,
         }));
       }
     } catch (error) {
@@ -157,9 +157,9 @@ const UnansweredQuestion = () => {
         token
       );
 
-      if (response.success) {
+      if (response?.success) {
         // Update the question's vote count in the UI
-        const updatedQuestions = questions.map((question) => {
+        const updatedQuestions = questions?.map((question) => {
           if (question.question_id === questionId) {
             let upvotes = question.upvotes;
             let downvotes = question.downvotes;

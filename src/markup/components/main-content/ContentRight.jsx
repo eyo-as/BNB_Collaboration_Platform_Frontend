@@ -57,7 +57,7 @@ const ContentRight = () => {
     getAllUsers(token)
       .then((res) => {
         if (res && res.data) {
-          const userLength = res.data.length;
+          const userLength = res?.data?.length;
           setUserLength(userLength);
 
           const latestUser = res.data.at(0);
@@ -77,14 +77,14 @@ const ContentRight = () => {
       .then((res) => {
         if (
           res &&
-          res.response &&
-          res.response.data &&
-          res.response.data.data
+          res?.response &&
+          res?.response?.data &&
+          res?.response?.data?.data
         ) {
-          const questionLength = res.response.data.data.length;
+          const questionLength = res?.response?.data?.data?.length;
           setQuestionLength(questionLength);
 
-          const latestQuestion = res.response.data.data.at(0);
+          const latestQuestion = res?.response?.data?.data.at(0);
           setLatestQuestion(latestQuestion);
         }
       })
@@ -99,11 +99,11 @@ const ContentRight = () => {
 
     getAllAnswersService(token)
       .then((res) => {
-        if (res && res.data && res.data.data) {
-          const answerLength = res.data.data.length;
+        if (res && res?.data && res?.data?.data) {
+          const answerLength = res?.data?.data?.length;
           setAnswerLength(answerLength);
 
-          const latestAnswer = res.data.data.at(-1);
+          const latestAnswer = res?.data?.data?.at(-1);
           setLatestAnswer(latestAnswer);
         }
       })
