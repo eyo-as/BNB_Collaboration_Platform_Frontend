@@ -21,9 +21,10 @@ const UserProfile = () => {
   useEffect(() => {
     if (token) {
       try {
-        const user_id = jwtDecode(token).user_id;
+        const user_id = jwtDecode(token)?.user_id;
         getSingleUser(user_id, token).then((res) => {
-          setUser(res.data.data);
+          const user = res?.data?.data;
+          setUser(user);
           setIsLoggedIn(true);
         });
       } catch (error) {
