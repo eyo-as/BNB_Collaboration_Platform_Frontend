@@ -69,12 +69,6 @@ Peer-Hub/
 
 ---
 
-## 📸 Screenshots
-
-> ![alt text](landing.png) > ![alt text](login.png) > ![alt text](createQ.png) > ![alt text](singleQ.png) > ![alt text](adminDashboard.png) > ![alt text](profile.png) > ![alt text](UserDetail.png) > ![alt text](uselList.png)
-
----
-
 ## 📍 Future Improvements
 
 - 🔎 Search and filter by tags or topics
